@@ -10,7 +10,10 @@ var taxt_prefix = '{{ taxt_prefix }}';
 var gem_taxonomy_base = '{{ taxonomy_base }}';
 var gem$ = {{ jquery }};
 
+var gem_tax = null;
+
 var gem_taxtweb_cookiepath = "/taxtweb3/";
+
 
 function createCookie(name,value,hours,path) {
         if (hours) {
@@ -45,6 +48,7 @@ function eraseCookie(name, path) {
 
 function taxtweb_main() {
     var ret = null;
+
     var tab_cur = {{ tab_id }};
     var subtab_cur = {{ subtab_id }};
     tab_set(tab_cur, subtab_cur);
@@ -275,6 +279,14 @@ function gem_help_cb(event)
     document.body.className = gem_help_old_body_class;
 }
           
-window.onload = taxtweb_main;
+window.onload = function () {
+    fetch('{{ STATIC_URL }}taxtweb3/js/taxonomy3_map.json')
+        .then((response) => response.json())
+        .then(function (json){
+            gem_tax = json;
+            taxtweb_main();
+        });
+    }
+
 //-->
 </script>

@@ -1,0 +1,194 @@
+{
+    "mat": {
+        "--": "Unknown material",
+        "C": "Concrete, unknown reinforcement",
+        "CU": "Concrete, unreinforced *",
+        "CR": "Concrete, reinforced",
+        "SRC": "Concrete, composite with steel section",
+        "S": "Steel",
+        "ME": "Metal (except steel)",
+        "M": "Masonry, unknown reinforcement",
+        "MUR": "Masonry, unreinforced",
+        "MCF": "Masonry, confined",
+        "MR": "Masonry, reinforced",
+        "E": "Earth, unknown reinforcement",
+        "EU": "Earth, unreinforced",
+        "ER": "Earth, reinforced",
+        "W": "Wood",
+        "HYB": "Hybrid or composite (mixed) materials",
+        "INF": "Informal materials",
+        "MATO": "Other material"
+    },
+    "mat_grps": {
+        "C": "grp_C",
+        "CU": "grp_CU",
+        "CR": "grp_CR",
+        "SRC": "grp_CR",
+        "S": "grp_S",
+        "ME": "grp_ME",
+        "M": "grp_M",
+        "MUR": "grp_M",
+        "MCF": "grp_M",
+        "MR": "grp_M",
+        "E": "grp_E",
+        "EU": "grp_E",
+        "ER": "grp_E",
+        "W": "grp_W",
+        "HYB": "hybrid",
+        "INF": "grp_I",
+        "MATO": "grp_O"
+    },
+    "mat_lone": {
+        "grp_C": {
+            "--": "Unknown concrete technology"
+        },
+        "grp_CU": {
+            "--": "Unknown concrete technology",
+            "CIP": "Cast-in-place concrete",
+            "PC": "Precast concrete"
+        },
+        "grp_CR": {
+            "--": "Unknown concrete technology",
+            "CIP": "Cast-in-place concrete",
+            "PC": "Precast concrete",
+            "CIPPS": "Cast-in-place prestressed concrete",
+            "PCPS": "Precast prestressed concrete"
+        },
+        "grp_S": {
+            "--": "Steel, unknown",
+            "SL": "Cold-formed steel members ",
+            "SR": "Hot-rolled steel members",
+            "SO": "Steel, other"
+        },
+        "grp_ME": {
+            "--": "Metal, unknown",
+            "MEIR": "Iron",
+            "MEO": "Metal, other"
+        },
+        "grp_M": {
+            "--": "Masonry unit, unknown",
+            "ADO": "Adobe blocks ",
+            "ST": "Stone, unknown technology",
+            "STRUB": "Rubble (field stone) or semi-dressed stone",
+            "STDRE": "Dressed stone",
+            "CL": "Fired clay unit, unknown type",
+            "CLBRS": "Fired clay solid bricks",
+            "CLBRH": "Fired clay hollow bricks",
+            "CLBLH": "Fired clay hollow blocks or tiles ",
+            "CB": "Concrete blocks, unknown type",
+            "CBS": "Concrete blocks, solid",
+            "CBH": "Concrete blocks, hollow",
+            "MO": "Masonry unit, other"
+        },
+        "grp_E": {
+            "--": "Unknown earth technology",
+            "ETR": "Rammed earth",
+            "ETC": "Cob or wet construction",
+            "ETO": "Earth technology, other"
+        },
+        "grp_W": {
+            "--": "Wood, unknown",
+            "WHE": "Heavy wood ",
+            "WLI": "Light wood members",
+            "WS": "Solid wood",
+            "WWD": "Wattle and daub",
+            "WBB": "Bamboo",
+            "WO": "Wood, other"
+        }
+    },
+    "mat_loneone": {
+        "grp_S": {
+            "--": "Steel connections, unknown",
+            "WEL": "Welded connections",
+            "RIV": "Riveted connections",
+            "BOL": "Bolted connections"
+        },
+        "grp_M": {
+            "--": "Stone, unknown type",
+            "MON": "No mortar",
+            "MOM": "Mud mortar",
+            "MOL": "Lime mortar",
+            "MOC": "Cement mortar",
+            "MOCL": "Cement:lime mortar",
+            "SPLI": "Limestone",
+            "SPSA": "Sandstone",
+            "SPTU": "Tuff",
+            "SPSL": "Slate",
+            "SPGR": "Granite",
+            "SPBA": "Basalt",
+            "SPO": "Stone, other type"
+        }
+    },
+    "mat_ltwo": {
+        "MR": {
+            "--": "Masonry reinforcement, unknown",
+            "RS": "Steel-reinforced",
+            "RW": "Wood-reinforced",
+            "RB": "Bamboo-, cane- or rope-reinforced ",
+            "RCM": "Fibre reinforcing mesh",
+            "RCB": "Reinforced concrete bands"
+        }
+    },
+    "llrs": {
+        "--": "Unknown lateral load-resisting system",
+        "LN": "No lateral load-resisting system",
+        "LFM": "Moment frame",
+        "LFINF": "Infilled frame",
+        "LFBR": "Braced frame",
+        "LPB": "Post and beam ",
+        "LWAL": "Wall ",
+        "LDUAL": "Dual frame-wall system",
+        "LFLS": "Flat slab/plate or waffle slab",
+        "LFLSINF": "Infilled flat slab/plate or infilled waffle slab",
+        "LHV": "LHV(sys_a-sys_b), hybrid LLRS in height \n(a= primary system and secondary system)",
+        "LHP": "LHP(sys_a-sys_b), hybrid LLRS in plan \n(a= primary system and secondary system)",
+        "LO": "Other lateral load-resisting system"
+    },
+    "llrs_lone": {
+        "--": "Ductility unknown",
+        "CDN": "No-code",
+        "CDL": "Low code",
+        "CDM": "Moderate code",
+        "CDH": "High code"
+    },
+    "llrs_ltwo": {
+        "--": "Ductility unknown",
+        "DNO": "Non-ductile",
+        "DUL": "Low ductility",
+        "DUM": "Moderate ductility",
+        "DUH": "High Ductility",
+        "DBD": "Equipped with base isolation and/or energy dissipation devices "
+    },
+    "llrs_lthree_grps": {
+        "--": null,
+        "LN": null,
+        "LFM": "grp_l3_ena",
+        "LFINF": "grp_l3_ena",
+        "LFBR": "grp_l3_ena",
+        "LPB": "grp_l3_ena",
+        "LWAL": "grp_l3_ena",
+        "LDUAL": "grp_l3_ena",
+        "LFLS": "grp_l3_ena",
+        "LFLSINF": "grp_l3_ena",
+        "LHV": null,
+        "LHP": null,
+        "LO": null
+    },
+    "llrs_lthree": {
+        "DCW": "Float specifying the density or ratio between the area of columns and/or walls and the area of the building plan.\n(DCW <= 1)"
+    },
+    "llrs_lfour": {
+        "--": "Infill material unknown",
+        "MUR": "Unreinforced masonry",
+        "MUR-CL": "Unreinforced masonry, fired clay bricks",
+        "MUR-CLB": "Unreinforced masonry, fired clay hollow blocks or tiles",
+        "MUR-AAC": "Unreinforced masonry, AAC blocks (aerated autoclaved blocks)",
+        "MUR-FAB": "Unreinforced masonry, flyash bricks",
+        "MUR-CBH": "Unreinforced masonry, hollow concrete blocks",
+        "MUR-CBS": "Unreinforced masonry, solid concrete blocks",
+        "MR": "Reinforced masonry",
+        "MR-CL": "Reinforced masonry, clay brick",
+        "MR-CB": "Reinforced masonry, concrete block",
+        "MUR-ST": "Unreinforced stone masonry"
+    }
+}

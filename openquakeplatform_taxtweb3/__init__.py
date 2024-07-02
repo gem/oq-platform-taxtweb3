@@ -16,5 +16,5 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with OpenQuake. If not, see <http://www.gnu.org/licenses/>.
 
-header_info = {"title": "TaxtWEB"}
+header_info = {"title": "TaxtWEB3"}
 __version__ = '1.6.3'

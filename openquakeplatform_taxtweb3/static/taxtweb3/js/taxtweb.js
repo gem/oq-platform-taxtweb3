@@ -203,6 +203,9 @@ function populate_form()
 
               { _text: 'the text', theAttribute: 'the value' } => <option the-attribute="the value">the text</option>
 */
+
+
+
 function select_populate(id, items)
 {
     var preitem, item, text = null, attrs;
@@ -234,6 +237,21 @@ function select_populate(id, items)
     if (items.length > 0) {
         gem$('#' + id).val(0);
     }
+}
+
+
+function select_populate_dict(id, items)
+{
+    var preitem, item, text = null, attrs;
+
+    gem$('#' + id).empty();
+
+    Object.keys(items).forEach(function(key) {
+        item = items[key];
+        attrs = "";
+        gem$('#' + id).append('<option value="' + key + '"' + attrs + '>' + item + '</option>');
+        console.log(item);
+    });
 }
 
 
@@ -2474,12 +2492,12 @@ function BuildTaxonomyString(out_type)
     direction2 = 'DY';
 
     if (gem$('#Direction1RB1').prop('checked')  && (out_type == 0)) {
-        direction1 = direction1 + '+D99';
-        direction2 = direction2 + '+D99';
+        direction1 = ''; // MN proposal: 'DX'
+        direction2 = ''; // MN proposal: 'DY'
         }
     else if (gem$('#Direction1RB2').prop('checked')) {
-        direction1 = direction1 + '+PF';
-        direction2 = direction2 + '+OF';
+        direction1 += 'P';
+        direction2 += 'O';
     }
 
     /*
@@ -2580,20 +2598,20 @@ function BuildTaxonomyString(out_type)
             // same params case
             ResAtoms[3] = ResAtoms[4] = ResAtoms[5] = "";
             if (gem$('#Direction1RB1').prop('checked')) {
-                ResAtoms[0] = "";
+                ResAtoms[0] = ""; // MN proposal 'DX'
             }
             else {
-                ResAtoms[0] = "PF";
+                ResAtoms[0] = "DXP";
             }
         }
         else {
             if (gem$('#Direction1RB1').prop('checked')) {
-                ResAtoms[0] = "DX";
-                ResAtoms[3] = "DY";
+                ResAtoms[0] = ""; // MN proposal 'DX'
+                ResAtoms[3] = ""; // MN proposal 'DY'
             }
             else {
-                ResAtoms[0] = "DX+PF";
-                ResAtoms[3] = "DY+PO";
+                ResAtoms[0] = "DXP";
+                ResAtoms[3] = "DYO";
             }
         }
 
@@ -3629,13 +3647,14 @@ function taxt_Initiate(full) {
     /* ER    */ MaterialCB11.push({'_text': 'Earth, reinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-reinforced-er' });
     /* W     */ MaterialCB11.push({'_text': 'Wood', 'dataGemHelp': gem_taxonomy_base + 'wood-w' });
     /* MATO  */ MaterialCB11.push({'_text': 'Other material', 'dataGemHelp': gem_taxonomy_base + 'other-material-mato' });
-    select_populate('MaterialCB11', MaterialCB11);
+    select_populate_dict('MaterialCB11', gem_tax['mat']);
     gem$('#MaterialCB11').on('change', taxt_MaterialCB11Select);
     gem$('#MaterialCB21').on('change', taxt_MaterialCB21Select);
     gem$('#MaterialCB31').on('change', taxt_MaterialCB31Select);
     gem$('#MaterialCB41').on('change', taxt_MaterialCB41Select);
     gem$('#SystemCB11').on('change', taxt_SystemCB11Select);
     gem$('#SystemCB21').on('change', taxt_SystemCB21Select);
+
 
     var MaterialCB12 = [];
     /* same */ MaterialCB12.push({'_text': 'Unknown Material', 'dataGemHelp': gem_taxonomy_base + 'unknown-material-mat99' });
@@ -3654,7 +3673,8 @@ function taxt_Initiate(full) {
     /* same */ MaterialCB12.push({'_text': 'Earth, reinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-reinforced-er' });
     /* same */ MaterialCB12.push({'_text': 'Wood', 'dataGemHelp': gem_taxonomy_base + 'wood-w' });
     /* same */ MaterialCB12.push({'_text': 'Other material', 'dataGemHelp': gem_taxonomy_base + 'other-material-mato' });
-    select_populate('MaterialCB12', MaterialCB12);
+
+    select_populate_dict('MaterialCB12', gem_tax['mat']);
     gem$('#MaterialCB12').on('change', taxt_MaterialCB12Select);
     gem$('#MaterialCB22').on('change', taxt_MaterialCB22Select);
     gem$('#MaterialCB32').on('change', taxt_MaterialCB32Select);
