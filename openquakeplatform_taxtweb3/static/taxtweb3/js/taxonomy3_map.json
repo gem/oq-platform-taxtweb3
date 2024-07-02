@@ -2,7 +2,7 @@
     "mat": {
         "--": "Unknown material",
         "C": "Concrete, unknown reinforcement",
-        "CU": "Concrete, unreinforced *",
+        "CU": "Concrete, unreinforced",
         "CR": "Concrete, reinforced",
         "SRC": "Concrete, composite with steel section",
         "S": "Steel",
@@ -56,7 +56,7 @@
         },
         "grp_S": {
             "--": "Steel, unknown",
-            "SL": "Cold-formed steel members ",
+            "SL": "Cold-formed steel members",
             "SR": "Hot-rolled steel members",
             "SO": "Steel, other"
         },
@@ -67,14 +67,14 @@
         },
         "grp_M": {
             "--": "Masonry unit, unknown",
-            "ADO": "Adobe blocks ",
+            "ADO": "Adobe blocks",
             "ST": "Stone, unknown technology",
             "STRUB": "Rubble (field stone) or semi-dressed stone",
             "STDRE": "Dressed stone",
             "CL": "Fired clay unit, unknown type",
             "CLBRS": "Fired clay solid bricks",
             "CLBRH": "Fired clay hollow bricks",
-            "CLBLH": "Fired clay hollow blocks or tiles ",
+            "CLBLH": "Fired clay hollow blocks or tiles",
             "CB": "Concrete blocks, unknown type",
             "CBS": "Concrete blocks, solid",
             "CBH": "Concrete blocks, hollow",
@@ -88,7 +88,7 @@
         },
         "grp_W": {
             "--": "Wood, unknown",
-            "WHE": "Heavy wood ",
+            "WHE": "Heavy wood",
             "WLI": "Light wood members",
             "WS": "Solid wood",
             "WWD": "Wattle and daub",
@@ -124,7 +124,7 @@
             "--": "Masonry reinforcement, unknown",
             "RS": "Steel-reinforced",
             "RW": "Wood-reinforced",
-            "RB": "Bamboo-, cane- or rope-reinforced ",
+            "RB": "Bamboo-, cane- or rope-reinforced",
             "RCM": "Fibre reinforcing mesh",
             "RCB": "Reinforced concrete bands"
         }
@@ -135,8 +135,8 @@
         "LFM": "Moment frame",
         "LFINF": "Infilled frame",
         "LFBR": "Braced frame",
-        "LPB": "Post and beam ",
-        "LWAL": "Wall ",
+        "LPB": "Post and beam",
+        "LWAL": "Wall",
         "LDUAL": "Dual frame-wall system",
         "LFLS": "Flat slab/plate or waffle slab",
         "LFLSINF": "Infilled flat slab/plate or infilled waffle slab",
@@ -157,7 +157,7 @@
         "DUL": "Low ductility",
         "DUM": "Moderate ductility",
         "DUH": "High Ductility",
-        "DBD": "Equipped with base isolation and/or energy dissipation devices "
+        "DBD": "Equipped with base isolation and/or energy dissipation devices"
     },
     "llrs_lthree_grps": {
         "--": null,
