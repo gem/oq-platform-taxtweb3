@@ -1,0 +1,8 @@
+#! /usr/bin/make -f
+
+export DH_VERBOSE = 1
+export PYBUILD_DISABLE = test
+export PYBUILD_NAME = oq-taxonomy
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild

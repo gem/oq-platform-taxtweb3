@@ -1,0 +1,11 @@
+python3-oq-taxonomy (1.4.0-1) bionic; urgency=low
+
+  * Full GEM Taxonomy 2 support.
+
+ -- Matteo Nastasi (GEM Foundation) <nastasi@openquake.org>  Wed, 05 Feb 2020 14:41:10 +0000
+
+python3-oq-taxonomy (0.9.0-1) bionic; urgency=low
+
+  * First release.
+
+ -- Matteo Nastasi (GEM Foundation) <nastasi@openquake.org>  Sat, 01 Feb 2020 10:34:22 +0000

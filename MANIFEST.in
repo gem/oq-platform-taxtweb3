@@ -1,0 +1,9 @@
+include LICENSE
+include README.rst
+recursive-include openquakeplatform_taxtweb3 *.py
+recursive-include openquakeplatform_taxtweb3/management *
+recursive-include openquakeplatform_taxtweb3/static *
+recursive-include openquakeplatform_taxtweb3/templates *
+recursive-include openquakeplatform_taxtweb3/test *
+recursive-exclude openquake *
+recursive-exclude openquake/* *
