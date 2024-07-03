@@ -1,5 +1,7 @@
 /*
   TODO:
+         - llrs
+         - populate
          - manage hybrid special case
          - help links
 */
@@ -1192,6 +1194,7 @@ function taxt_BreakDirection2(obj) // Ok
 function taxt_SetDirection2(obj) // Ok
 {
     if (gem$('#DirectionCB').prop('checked')) {
+        // FIXME: for hybrid types an external loop is required
         gem$('#MaterialCB12').val(gem$('#MaterialCB11').val());
         taxt_MaterialCB12Select();
         gem$('#MaterialCB22').val(gem$('#MaterialCB21').val());
@@ -1500,51 +1503,59 @@ function BuildTaxonomyString(out_type)
         Taxonomy[i] = "";
     /* Structural System: Direction X */
 
-    if ( gem$('#MaterialCB11').val() == 0 && (out_type == 0) )
+    var t_mat_typ, t_mat_tec, t_mat_pro, t_mat_tea, t_llrs_typ, t_llrs_duc;
+
+    // MATERIAL X
+    t_mat_typ = gem$('#MaterialCB11').val();
+    if (t_mat_typ != '--')
+        Taxonomy[0] = t_mat_typ;
+    else if(out_type == 0)
         Taxonomy[0] = 'MAT99';
-    if (gem$('#MaterialCB11').val() == 1)
-        Taxonomy[0] = 'C99';
-    if (gem$('#MaterialCB11').val() == 2)
-        Taxonomy[0] = 'CU';
-    if (gem$('#MaterialCB11').val() == 3)
-        Taxonomy[0] = 'CR';
-    if (gem$('#MaterialCB11').val() == 4)
-        Taxonomy[0] = 'SRC';
 
-    if ( (gem$('#MaterialCB11').val() > 0) && (gem$('#MaterialCB11').val() < 5) ) {
-        if ( (gem$('#MaterialCB21').val() == 0) && (out_type == 0) )
-            Taxonomy[1] = '+CT99';
-        if (gem$('#MaterialCB21').val() == 1)
-            Taxonomy[1] = '+CIP';
-        if (gem$('#MaterialCB21').val() == 2)
-            Taxonomy[1] = '+PC';
-        if (gem$('#MaterialCB21').val() == 3)
-            Taxonomy[1] = '+CIPPS';
-        if (gem$('#MaterialCB21').val() == 4)
-            Taxonomy[1] = '+PCPS';
-    }
-    if (gem$('#MaterialCB11').val() == 5) {
-        Taxonomy[0] = 'S';
-        if ( gem$('#MaterialCB21').val() == 0 && (out_type == 0) )
-            Taxonomy[1] = '+S99';
-        if ( gem$('#MaterialCB21').val() == 1 )
-            Taxonomy[1] = '+SL';
-        if ( gem$('#MaterialCB21').val() == 2 )
-            Taxonomy[1] = '+SR';
-        if ( gem$('#MaterialCB21').val() == 3 )
-            Taxonomy[1] = '+SO';
-    }
+    t_mat_tec = gem$('#MaterialCB21').val();
+    if (t_mat_tec != null && t_mat_tec != '--')
+        Taxonomy[1] = '-' + t_mat_tec;
+    else
+        Taxonomy[1] = '';
 
-    if (gem$('#MaterialCB11').val() == 6) {
-        Taxonomy[0] = 'ME';
-        if ( gem$('#MaterialCB21').val() == 0 && (out_type == 0) )
-            Taxonomy[1] = '+ME99';
-        if (gem$('#MaterialCB21').val() == 1)
-            Taxonomy[1] = '+MEIR';
-        if (gem$('#MaterialCB21').val() == 2)
-            Taxonomy[1] = '+MEO';
-    }
+    t_mat_pro = gem$('#MaterialCB31').val();
+    if (t_mat_pro != null && t_mat_pro != '--')
+        Taxonomy[2] = '-' + t_mat_pro;
+    else
+        Taxonomy[2] = '';
 
+    t_mat_tea = gem$('#MaterialCB41').val();
+    if (t_mat_tea != null && t_mat_tea != '--')
+        Taxonomy[34] = '-' + t_mat_tea;
+    else
+        Taxonomy[34] = '';
+
+    // MATERIAL Y
+    t_mat_typ = gem$('#MaterialCB12').val();
+    if (t_mat_typ != '--')
+        Taxonomy[5] = t_mat_typ;
+    else if(out_type == 0)
+        Taxonomy[5] = 'MAT99';
+
+    t_mat_tec = gem$('#MaterialCB22').val();
+    if (t_mat_tec != null && t_mat_tec != '--')
+        Taxonomy[6] = '-' + t_mat_tec;
+    else
+        Taxonomy[6] = '';
+
+    t_mat_pro = gem$('#MaterialCB32').val();
+    if (t_mat_pro != null && t_mat_pro != '--')
+        Taxonomy[7] = '-' + t_mat_pro;
+    else
+        Taxonomy[7] = '';
+
+    t_mat_tea = gem$('#MaterialCB42').val();
+    if (t_mat_tea != null && t_mat_tea != '--')
+        Taxonomy[35] = '-' + t_mat_tea;
+    else
+        Taxonomy[35] = '';
+    
+if (1 == 0) { // FIXME: remove when finished
     if (gem$('#MaterialCB11').val() == 5) {
         if ( gem$('#MaterialCB31').val() == 0 && (out_type == 0) )
             Taxonomy[2] = '+SC99';
@@ -2537,15 +2548,15 @@ function BuildTaxonomyString(out_type)
         Taxonomy[33] = 'FOSDN';
     if (gem$('#FoundationsCB').val() == 5)
         Taxonomy[33] = 'FOSO';
-
+}
 
     // TAIL
     direction1 = 'DX';
     direction2 = 'DY';
 
     if (gem$('#Direction1RB1').prop('checked')  && (out_type == 0)) {
-        direction1 = ''; // MN proposal: 'DX'
-        direction2 = ''; // MN proposal: 'DY'
+        direction1 = 'DX'; // MN proposal: 'DX'
+        direction2 = 'DY'; // MN proposal: 'DY'
         }
     else if (gem$('#Direction1RB2').prop('checked')) {
         direction1 += 'P';
@@ -2643,8 +2654,8 @@ function BuildTaxonomyString(out_type)
         '/' + Taxonomy[19] + Taxonomy[20] + Taxonomy[22] + Taxonomy[21] + Taxonomy[23] +
         '/' + Taxonomy[24] + '/' + Taxonomy[25] + Taxonomy[26] + Taxonomy[27] + Taxonomy[28] + Taxonomy[29] +
         '/' + Taxonomy[30] + Taxonomy[31] + Taxonomy[32] + '/' + Taxonomy[33];
-
     if (out_type == 2) {
+        // FIXME: pay attention with HYBRID ATOMS if .split is enough
         var is_first = true, ResAtoms = ResTax.split('/');
         if (ResAtoms[1] == ResAtoms[4] && ResAtoms[2] == ResAtoms[5]) {
             // same params case
@@ -2654,6 +2665,7 @@ function BuildTaxonomyString(out_type)
             }
             else {
                 ResAtoms[0] = "DXP";
+                ResAtoms[3] = "";
             }
         }
         else {
