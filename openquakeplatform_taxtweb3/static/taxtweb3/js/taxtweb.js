@@ -1,3 +1,9 @@
+/*
+  TODO:
+         - manage hybrid special case
+         - help links
+*/
+
 var mat_tech =
     { 'MAT99': [],
       'C99': mat_tech_grp[1],
@@ -293,10 +299,55 @@ function taxt_ValidateSystem2() // Ok
 
 function taxt_ValidateMaterial1() // Ok
 {
-    gem$('#MaterialCB21').empty();
-    gem$('#MaterialCB31').empty();
-    gem$('#MaterialCB41').empty();
-    gem$('#SystemCB11').empty();
+    return taxt_ValidateMaterial('1');
+}
+
+function taxt_ValidateMaterial2() // Ok
+{
+    return taxt_ValidateMaterial('2');
+}
+
+function taxt_ValidateMaterial(tab_id) // Ok
+{
+    var mat_cb1 = 'MaterialCB1' + tab_id;
+    var mat_cb2 = 'MaterialCB2' + tab_id;
+    var mat_cb3 = 'MaterialCB3' + tab_id;
+    var mat_cb4 = 'MaterialCB4' + tab_id;
+    var sys_cb1 = 'SystemCB1' + tab_id;
+
+    gem$('#' + mat_cb2).empty();
+    gem$('#' + mat_cb3).empty();
+    gem$('#' + mat_cb4).empty();
+    gem$('#' + sys_cb1).empty();
+
+    var key_cur = gem$('#' + mat_cb1).val();
+    if (key_cur in gem_tax['mat_grps']) {
+        var mat_grp = gem_tax['mat_grps'][key_cur];
+        select_populate_dict(mat_cb2, gem_tax['mat_lone'][mat_grp]);
+        gem$('#' + mat_cb2).prop("disabled", false);
+        if (mat_grp in gem_tax['mat_loneone']) {
+            select_populate_dict(mat_cb3, gem_tax['mat_loneone'][mat_grp]);
+            gem$('#' + mat_cb3).prop("disabled", false);
+        }
+        else {
+            gem$('#' + mat_cb3).prop("disabled", true);
+        }
+    }
+    else {
+        gem$('#' + mat_cb2).prop("disabled", true);
+        gem$('#' + mat_cb3).prop("disabled", true);
+    }
+
+    if (key_cur in gem_tax['mat_ltwo']) {
+        select_populate_dict(mat_cb4, gem_tax['mat_ltwo'][key_cur]);
+        gem$('#' + mat_cb4).prop("disabled", false);
+    }
+    else {
+        gem$('#' + mat_cb4).prop("disabled", true);
+    }
+
+    /* FIXME TO BE FINISHED */
+    return;
 
     if (gem$('#MaterialCB11').val() == 0) {
         gem$('#MaterialCB21').prop("disabled", true);
@@ -471,7 +522,7 @@ function taxt_ValidateMaterial1() // Ok
     taxt_ValidateSystem1();
 }
 
-function taxt_ValidateMaterial2() // Ok
+function taxt_ValidateMaterial2_old() // Ok
 {
     gem$('#MaterialCB22').empty();
     gem$('#MaterialCB32').empty();
@@ -1158,6 +1209,7 @@ function taxt_SetDirection2(obj) // Ok
 
 function taxt_MaterialCB11Select(obj) // Ok
 {
+    /* MN TRACKER MATERIAL */
     taxt_ValidateMaterial1();
     taxt_SetDirection2();
     if (gem$('#DirectionCB').prop('checked')) {
