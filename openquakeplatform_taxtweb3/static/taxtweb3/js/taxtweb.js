@@ -247,15 +247,20 @@ function select_populate(id, items)
     }
 }
 
-
+/* select_populate_dict(id, items[, match_cls]) */
 function select_populate_dict(id, items)
 {
     var preitem, item, text = null, attrs;
+    var match_cls = null;
+    if (arguments.length > 2)
+        match_cls = arguments[2];
 
     gem$('#' + id).empty();
 
     Object.keys(items).forEach(function(key) {
-        item = items[key];
+        item = items[key]
+        if (match_cls != null)
+            item = item.replace(match_cls, '');
         attrs = "";
         gem$('#' + id).append('<option value="' + key + '"' + attrs + '>' + item + '</option>');
         console.log(item);
@@ -348,7 +353,11 @@ function taxt_ValidateMaterial(tab_id) // Ok
         gem$('#' + mat_cb4).prop("disabled", true);
     }
 
+    select_populate_dict(sys_cb1, gem_tax['llrs'], / *\([^\(]*\)$/);
+    gem$('#' +  sys_cb1).val('--');
     /* FIXME TO BE FINISHED */
+    // taxt_ValidateSystem1();
+
     return;
 
     if (gem$('#MaterialCB11').val() == 0) {
@@ -1498,7 +1507,6 @@ function taxt_Direction2RB3Click(obj) // Ok
 function BuildTaxonomyString(out_type)
 {
     var Taxonomy = [], ResTax, direction1, direction2;
-
     for (var i = 0 ; i < 50 ; i++)
         Taxonomy[i] = "";
     /* Structural System: Direction X */

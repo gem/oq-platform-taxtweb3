@@ -5,14 +5,14 @@
         <li id="id_help_form" style="float: right; color: black;" class="tab" onclick="gem_help();"><span title="click here and than what you are interested in">{% if is_popup %}Help{% else %}Click and Help{% endif %}</span></li>
         <li id="id_intro_form" style="float: right; color: black;" class="tab" onclick="window.open('http://www.globalquakemodel.org/what/physical-integrated-risk/building-taxonomy/', '_blank');"><span title="an introduction to building taxonomy">Introduction</span></li>
     </ul>
-    <div id="main_content_parent" style="border-top-width: 0; border-color: #F8F8F8 #1B75A7 #1B75A7; position: relative; width: 800px; height: 600px; /* background-color: #ccccff; blue */">
-        <div id="main_content-1" class="main_content" style="position: absolute; display: none; top: 0px; width: 800px; margin: 0px;/* background-color: #ffcccc; /*red */">
+    <div id="main_content_parent" style="border-top-width: 0; border-color: #F8F8F8 #1B75A7 #1B75A7; position: relative; width: 800px; /* height: 650px; background-color: #ccccff; blue */">
+        <div id="main_content-1" class="main_content" style="display: none; top: 0px; width: 800px; margin: 0px;/* background-color: #ffcccc; /*red */">
             <ul class="subtab">
                 {{ sub1tab_content|safe }}
                 <li class="subtab"><span><input type="checkbox" style="vertical-align: text-bottom;" id="DirectionCB"> Use same parameters in both directions</span></li>
             </ul>
 
-            <div id="sub1_content-1" style="position: absolute; display: none; width: 798px; background-color: #f0f0f0; border: 1px solid; border-color: #f0f0f0 #f0f0f0 #1b75a7 #f0f0f0;">
+            <div id="sub1_content-1" style="display: none; width: 798px; background-color: #f0f0f0; border-width: 1px 1px 0px 1px; border-style: solid; border-color: #f0f0f0 #f0f0f0 #1b75a7 #f0f0f0;">
                 <div class="data-group">
                     <h4 data-gem-help="{{ taxonomy_base }}direction">Direction specification:</h4>
                     <table class="dir_spec"><tr>
@@ -40,14 +40,26 @@
                     <h4 data-gem-help="{{ taxonomy_base }}lateral-load-resisting-system">Lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
                         <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">Type lateral load-resisting system:</span><br>
-                          <select id="SystemCB11"></select></div></td>
+                            <select id="SystemCB11" style="width: 275px;"></select></div></td>
                         <td><div><span data-gem-help="{{ taxonomy_base }}system-ductility">System ductility:</span><br>
                           <select id="SystemCB21"></select></div></td>
+                      </tr>
+                      <tr>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">System code level:</span><br>
+                          <select id="SystemCB31"></select></div></td>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Lateral load coefficient:</span><br>
+                          <!-- <select id="SystemCB41"></select></div> --> FIXME: here a coefficient</td>
+                      </tr>
+                      <tr>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density:</span><br>
+                          <!-- <select id="SystemCB51"></select></div> --> FIXME: here a coefficient</td>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">LLRS (additional) - Infill material:</span><br>
+                          <select id="SystemCB61"></select></div></td>
                     </tr></table>
                 </div>
 
             </div>
-            <div id="sub1_content-2" style="position: absolute; display: none; width: 798px; background-color: #f0f0f0; border: 1px solid; border-color: #f0f0f0 #f0f0f0 #1b75a7 #f0f0f0;">
+            <div id="sub1_content-2" style="display: none; width: 798px; background-color: #f0f0f0; border: 1px solid; border-color: #f0f0f0 #f0f0f0 #1b75a7 #f0f0f0;">
 
 
                 <div class="data-group">
@@ -77,16 +89,27 @@
                     <h4 data-gem-help="{{ taxonomy_base }}lateral-load-resisting-system">Lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
                         <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">Type lateral load-resisting system:</span><br>
-                          <select id="SystemCB12"></select></div></td>
+                            <select id="SystemCB12" style="width: 275px;"></select></div></td>
                         <td><div><span data-gem-help="{{ taxonomy_base }}system-ductility">System ductility:</span><br>
                           <select id="SystemCB22"></select></div></td>
+                      </tr>
+                      <tr>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">System code level:</span><br>
+                          <select id="SystemCB32"></select></div></td>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Lateral load coefficient:</span><br>
+                          <!-- <select id="SystemCB42"></select></div> --> FIXME: here a coefficient</td>
+                      </tr>
+                      <tr>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density:</span><br>
+                          <!-- <select id="SystemCB52"></select></div> --> FIXME: here a coefficient</td>
+                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">LLRS (additional) - Infill material:</span><br>
+                          <select id="SystemCB62"></select></div></td>
                     </tr></table>
                 </div>
-
             </div>
         </div>
 
-        <div id="main_content-2" class="main_content" style="position: absolute; display: none; top: 0px; width: 800px; background-color: #f8f8f8; /* green */">
+        <div id="main_content-2" class="main_content" style="display: none; top: 0px; width: 800px; background-color: #f8f8f8; /* green */">
             <div class="data-group">
                 <h4 data-gem-help="{{ taxonomy_base }}height">Height:</h4>
                 <table style="width: 95%;"><tr>
@@ -132,7 +155,7 @@
 
             </div>
         </div>
-        <div id="main_content-3" class="main_content" style="position: absolute; display: none; top: 0px; width: 800px; background-color: #f8f8f8; /* orange */">
+        <div id="main_content-3" class="main_content" style="display: none; top: 0px; width: 800px; background-color: #f8f8f8; /* orange */">
             <table class="doubletable">
             <tr><td style="width: 50%;">
                 <div class="data-group">
@@ -193,7 +216,7 @@
                </tr></table>
             </div>
         </div>
-        <div id="main_content-4" class="main_content" style="position: absolute; display: none; top: 0px; width: 800px; background-color: #f8f8f8; /*violet*/">
+        <div id="main_content-4" class="main_content" style="display: none; top: 0px; width: 800px; background-color: #f8f8f8; /*violet*/">
             <div class="data-group">
                 <h4 data-gem-help="{{ taxonomy_base }}roof">Roof:</h4>
 
@@ -249,9 +272,8 @@
                </tr></table>
 
             </div>
-
         </div>
-        <div style="position: absolute; bottom: 0px; margin-left: 2.5%; width: 95%;">
+        <div style="margin-left: 2.5%; margin-top: 12px; width: 95%;">
             <div style="display: none; position: relative; top: -24px; background-color: #ff8888; padding: 4px;" id="resultE_explain"></div>
             <p>Taxonomy string for this building typology: </p>
             <p><input id="resultE" type="text" size="80" maxlength="600"></input><input id="resultE_virt" type="hidden"></input></p>
