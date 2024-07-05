@@ -1,6 +1,7 @@
 /*
   TODO:
          - llrs
+           . numerical values
          - populate
          - manage hybrid special case
          - help links
@@ -268,7 +269,82 @@ function select_populate_dict(id, items)
 }
 
 
+function taxt_ValidateSystem(tab_id) // Ok
+{
+    var sys_cb1 = 'SystemCB1' + tab_id;
+    var sys_cb2 = 'SystemCB2' + tab_id; // duct
+    var sys_cb3 = 'SystemCB3' + tab_id; // code level
+    var sys_e4 =  'SystemE4'  + tab_id; // LL coeff
+    var sys_e5 =  'SystemE5'  + tab_id; // Column-wall density
+    var sys_cb6 = 'SystemCB6' + tab_id; // LLRS additional
+
+    var key_cur = gem$('#' + sys_cb1).val();
+
+
+    if (key_cur == '--' || key_cur == 'LN') {
+        gem$('#' + sys_cb2).empty();
+        gem$('#' + sys_cb3).empty();
+        gem$('#' + sys_e4).val('');
+        gem$('#' + sys_e5).val('');
+        gem$('#' + sys_cb6).empty();
+
+        gem$('#' + sys_cb2).prop("disabled", true);
+        gem$('#' + sys_cb3).prop("disabled", true);
+        gem$('#' + sys_e4).prop("disabled", true);
+        gem$('#' + sys_e5).prop("disabled", true);
+        gem$('#' + sys_cb6).prop("disabled", true);
+    }
+    else {
+        if (gem$('#' + sys_cb2).prop("disabled")) {
+            gem$('#' + sys_cb2).prop("disabled", false);
+            select_populate_dict(sys_cb2, gem_tax['llrs_ltwo']);
+        }
+        if (gem$('#' + sys_cb3).prop("disabled")) {
+            gem$('#' + sys_cb3).prop("disabled", false);
+            select_populate_dict(sys_cb3, gem_tax['llrs_lone']);
+        }
+        if (gem$('#' + sys_e4).prop("disabled")) {
+            gem$('#' + sys_e4).prop("disabled", false);
+        }
+        if (gem$('#' + sys_e5).prop("disabled")) {
+            gem$('#' + sys_e5).prop("disabled", false);
+        }
+        if (key_cur == 'LFINF') {
+            if (gem$('#'+  sys_cb6).prop("disabled")) {
+                select_populate_dict(sys_cb6, gem_tax['llrs_lfour']);
+                gem$('#'+  sys_cb6).prop("disabled", false);
+            }
+        }
+        else {
+            gem$('#' + sys_cb6).empty();
+            gem$('#' + sys_cb6).prop("disabled", true);
+        }
+        
+        if (0 == 1) {
+        
+            var SystemCB21 = [];
+            /* DU99  */ SystemCB21.push({'_text': 'Ductility unknown', 'dataGemHelp': gem_taxonomy_base + 'ductility-unknown-du99' });
+            /* DUC   */ SystemCB21.push({'_text': 'Ductile', 'dataGemHelp': gem_taxonomy_base + 'ductile-duc' });
+            /* DNO   */ SystemCB21.push({'_text': 'Non-ductile', 'dataGemHelp': gem_taxonomy_base + 'non-ductile-dno' });
+            /* DBD   */ SystemCB21.push({'_text': 'Base isolation and/or energy dissipation devices', 'dataGemHelp': gem_taxonomy_base + 'equipped-with-base-isolation-and-or-energy-dissipation-devices-dbd' });
+            select_populate('SystemCB21', SystemCB21);
+            gem$('#SystemCB21').prop("disabled", false);
+        }
+    }
+}
+
 function taxt_ValidateSystem1() // Ok
+{
+    return taxt_ValidateSystem('1');
+}
+
+function taxt_ValidateSystem2() // Ok
+{
+    return taxt_ValidateSystem('2');
+}
+
+
+function taxt_ValidateSystem1_old() // Ok
 {
     gem$('#SystemCB21').empty();
 
@@ -286,7 +362,7 @@ function taxt_ValidateSystem1() // Ok
     }
 }
 
-function taxt_ValidateSystem2() // Ok
+function taxt_ValidateSystem2_old() // Ok
 {
     gem$('#SystemCB22').empty();
 
@@ -320,12 +396,12 @@ function taxt_ValidateMaterial(tab_id) // Ok
     var mat_cb2 = 'MaterialCB2' + tab_id;
     var mat_cb3 = 'MaterialCB3' + tab_id;
     var mat_cb4 = 'MaterialCB4' + tab_id;
-    var sys_cb1 = 'SystemCB1' + tab_id;
+    // var sys_cb1 = 'SystemCB1' + tab_id;
 
     gem$('#' + mat_cb2).empty();
     gem$('#' + mat_cb3).empty();
     gem$('#' + mat_cb4).empty();
-    gem$('#' + sys_cb1).empty();
+    // gem$('#' + sys_cb1).empty();
 
     var key_cur = gem$('#' + mat_cb1).val();
     if (key_cur in gem_tax['mat_grps']) {
@@ -353,10 +429,10 @@ function taxt_ValidateMaterial(tab_id) // Ok
         gem$('#' + mat_cb4).prop("disabled", true);
     }
 
-    select_populate_dict(sys_cb1, gem_tax['llrs'], / *\([^\(]*\)$/);
-    gem$('#' +  sys_cb1).val('--');
-    /* FIXME TO BE FINISHED */
-    // taxt_ValidateSystem1();
+    if (tab_id == 1)
+        taxt_ValidateSystem1();
+    else if (tab_id == '2')
+        taxt_ValidateSystem2();
 
     return;
 
@@ -1194,7 +1270,11 @@ function taxt_BreakDirection2(obj) // Ok
             gem$('#MaterialCB32').val() != gem$('#MaterialCB31').val() ||
             gem$('#MaterialCB42').val() != gem$('#MaterialCB41').val() ||
             gem$('#SystemCB12').val() != gem$('#SystemCB11').val() ||
-            gem$('#SystemCB22').val() != gem$('#SystemCB21').val()) {
+            gem$('#SystemCB22').val() != gem$('#SystemCB21').val() ||
+            gem$('#SystemCB32').val() != gem$('#SystemCB31').val() ||
+            gem$('#SystemE42').val() != gem$('#SystemE41').val() ||
+            gem$('#SystemE52').val() != gem$('#SystemE51').val() ||
+            gem$('#SystemCB62').val() != gem$('#SystemCB61').val()) {
             gem$('#DirectionCB').prop('checked', false);
         }
     }
@@ -1216,6 +1296,14 @@ function taxt_SetDirection2(obj) // Ok
         taxt_SystemCB12Select();
         gem$('#SystemCB22').val(gem$('#SystemCB21').val());
         taxt_SystemCB22Select();
+        gem$('#SystemCB32').val(gem$('#SystemCB31').val());
+        taxt_SystemCB32Select();
+        gem$('#SystemE42').val(gem$('#SystemE41').val());
+        taxt_SystemE42Select();
+        gem$('#SystemE52').val(gem$('#SystemE51').val());
+        taxt_SystemE52Select();
+        gem$('#SystemCB62').val(gem$('#SystemCB61').val());
+        taxt_SystemCB62Select();
     }
 }
 
@@ -1298,6 +1386,72 @@ function taxt_SystemCB21Select(obj) // Ok
 }
 
 function taxt_SystemCB22Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+    /* FIXME ask probably question
+    if SystemCB22.ItemIndex>0 then begin
+                      reportForm.SystemCB22.Checked:= true;
+    end
+    else begin
+             reportForm.MaterialCB22.Checked:= false;
+    end;
+    */
+}
+
+function taxt_SystemCB31Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB32Select(obj) // Ok
+{
+    // taxt_ValidateSystem2();
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemE41Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemE42Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+    /* FIXME ask probably question
+    if SystemCB22.ItemIndex>0 then begin
+                      reportForm.SystemCB22.Checked:= true;
+    end
+    else begin
+             reportForm.MaterialCB22.Checked:= false;
+    end;
+    */
+}
+
+function taxt_SystemE51Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemE52Select(obj) // Ok
+{
+    // taxt_ValidateSystem2();
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB61Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB62Select(obj) // Ok
 {
     taxt_BreakDirection2(obj);
     taxt_BuildTaxonomy();
@@ -1511,7 +1665,8 @@ function BuildTaxonomyString(out_type)
         Taxonomy[i] = "";
     /* Structural System: Direction X */
 
-    var t_mat_typ, t_mat_tec, t_mat_pro, t_mat_tea, t_llrs_typ, t_llrs_duc;
+    var t_mat_typ, t_mat_tec, t_mat_pro, t_mat_tea, t_llrs_typ, t_llrs_duc,
+        t_llrs_clv, t_llrs_coe, t_llrs_cwd, t_llrs_add;
 
     // MATERIAL X
     t_mat_typ = gem$('#MaterialCB11').val();
@@ -1538,6 +1693,53 @@ function BuildTaxonomyString(out_type)
     else
         Taxonomy[34] = '';
 
+    // LLRS X
+    t_llrs_typ = gem$('#SystemCB11').val();
+    if (t_llrs_typ != null && t_llrs_typ != '--') {
+        Taxonomy[3] = t_llrs_typ;
+        
+        t_llrs_add = gem$('#SystemCB61').val();
+        if (t_llrs_add != null && t_llrs_add != '--')
+            Taxonomy[3] += '(' + t_llrs_add + ')';
+    }
+    else
+        Taxonomy[3] = '';
+        
+    t_llrs_duc = gem$('#SystemCB21').val();
+    if (t_llrs_duc != null && t_llrs_duc != '--')
+        Taxonomy[4] = '-' + t_llrs_duc;
+    else
+        Taxonomy[4] = '';
+
+    t_llrs_clv = gem$('#SystemCB31').val();
+    if (t_llrs_clv != null && t_llrs_clv != '--')
+        Taxonomy[36] = '-' + t_llrs_clv;
+    else
+        Taxonomy[36] = '';
+
+    t_llrs_coe =  gem$('#SystemE41').val();
+    if (t_llrs_coe != null && t_llrs_coe != '')
+        Taxonomy[37] = '-LFC:' + t_llrs_coe;
+    else
+        Taxonomy[37] = '';
+
+    t_llrs_cwd = gem$('#SystemE51').val();
+    if (t_llrs_cwd != null && t_llrs_cwd != '')
+        Taxonomy[38] = '-DCW:' + t_llrs_cwd;
+    else
+        Taxonomy[38] = '';
+
+
+
+
+    /*
+
+        '/' + Taxonomy[3] + Taxonomy[4] + Taxonomy[36] + Taxonomy[37] + + Taxonomy[38] + Taxonomy[39] + 
+        '/' + direction2 + '/' + Taxonomy[5] + Taxonomy[6] + Taxonomy[35] + Taxonomy[7] +
+        '/' + Taxonomy[8] + Taxonomy[9] + Taxonomy[40] + Taxonomy[41] + + Taxonomy[42] + Taxonomy[43] + 
+
+    */
+    
     // MATERIAL Y
     t_mat_typ = gem$('#MaterialCB12').val();
     if (t_mat_typ != '--')
@@ -1562,6 +1764,45 @@ function BuildTaxonomyString(out_type)
         Taxonomy[35] = '-' + t_mat_tea;
     else
         Taxonomy[35] = '';
+
+    // LLRS Y
+    t_llrs_typ = gem$('#SystemCB12').val();
+    if (t_llrs_typ != null && t_llrs_typ != '--') {
+        Taxonomy[8] = t_llrs_typ;
+        
+        t_llrs_add = gem$('#SystemCB62').val();
+        if (t_llrs_add != null && t_llrs_add != '--')
+            Taxonomy[8] += '(' + t_llrs_add + ')';
+    }
+    else
+        Taxonomy[8] = '';
+
+    
+    t_llrs_duc = gem$('#SystemCB22').val();
+    if (t_llrs_duc != null && t_llrs_duc != '--')
+        Taxonomy[9] = '-' + t_llrs_duc;
+    else
+        Taxonomy[9] = '';
+
+
+    t_llrs_clv = gem$('#SystemCB32').val();
+    if (t_llrs_clv != null && t_llrs_clv != '--')
+        Taxonomy[40] = '-' + t_llrs_clv;
+    else
+        Taxonomy[40] = '';
+
+    t_llrs_coe =  gem$('#SystemE42').val();
+    if (t_llrs_coe != null && t_llrs_coe != '')
+        Taxonomy[41] = '-LFC:' + t_llrs_coe;
+    else
+        Taxonomy[41] = '';
+
+    t_llrs_cwd = gem$('#SystemE52').val();
+    if (t_llrs_cwd != null && t_llrs_cwd != '')
+        Taxonomy[42] = '-DCW:' + t_llrs_cwd;
+    else
+        Taxonomy[42] = '';
+
     
 if (1 == 0) { // FIXME: remove when finished
     if (gem$('#MaterialCB11').val() == 5) {
@@ -2654,9 +2895,9 @@ if (1 == 0) { // FIXME: remove when finished
         }
     }
     ResTax = direction1 + '/' + Taxonomy[0] + Taxonomy[1] + Taxonomy[34] + Taxonomy[2] +
-        '/' +Taxonomy[3] + Taxonomy[4] +
+        '/' + Taxonomy[3] + Taxonomy[4] + Taxonomy[36] + Taxonomy[37] + Taxonomy[38] + Taxonomy[39] + 
         '/' + direction2 + '/' + Taxonomy[5] + Taxonomy[6] + Taxonomy[35] + Taxonomy[7] +
-        '/' + Taxonomy[8] + Taxonomy[9] +
+        '/' + Taxonomy[8] + Taxonomy[9] + Taxonomy[40] + Taxonomy[41] + Taxonomy[42] + Taxonomy[43] + 
         '/' + Taxonomy[11] + Taxonomy[12] + Taxonomy[13] + Taxonomy[14] + '/' + Taxonomy[10] +
         '/' + Taxonomy[15] + Taxonomy[16] + '/' + Taxonomy[17] + '/' + Taxonomy[18] +
         '/' + Taxonomy[19] + Taxonomy[20] + Taxonomy[22] + Taxonomy[21] + Taxonomy[23] +
@@ -3701,59 +3942,42 @@ function taxt_Initiate(full) {
     gem$('#DirectionCB').prop('checked', true);
     gem$('#DirectionCB').on('change', taxt_SetDirection2);
 
-    // FIXME: t0 only, load a preview saved taxonomy must be done
-    var MaterialCB11 = [];
-    /* MAT99 */ MaterialCB11.push({'_text': 'Unknown Material', 'dataGemHelp': gem_taxonomy_base + 'unknown-material-mat99' });
-    /* C99   */ MaterialCB11.push({'_text': 'Concrete, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'concrete-unknown-reinforcement-c99' });
-    /* CU    */ MaterialCB11.push({'_text': 'Concrete, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'concrete-unreinforced-cu' });
-    /* CR    */ MaterialCB11.push({'_text': 'Concrete, reinforced', 'dataGemHelp': gem_taxonomy_base + 'concrete-reinforced-cr' });
-    /* SRC   */ MaterialCB11.push({'_text': 'Concrete, composite with steel section', 'dataGemHelp': gem_taxonomy_base + 'concrete-composite-with-steel-sections-src' });
-    /* S     */ MaterialCB11.push({'_text': 'Steel', 'dataGemHelp': gem_taxonomy_base + 'steel-s' });
-    /* ME    */ MaterialCB11.push({'_text': 'Metal (except steel)', 'dataGemHelp': gem_taxonomy_base + 'metal-except-steel-me' });
-    /* M99   */ MaterialCB11.push({'_text': 'Masonry, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'masonry-unknown-reinforcement-m99' });
-    /* MUR   */ MaterialCB11.push({'_text': 'Masonry, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'masonry-unreinforced-mur' });
-    /* MCF   */ MaterialCB11.push({'_text': 'Masonry, confined', 'dataGemHelp': gem_taxonomy_base + 'masonry-confined-mcf' });
-    /* MR    */ MaterialCB11.push({'_text': 'Masonry, reinforced', 'dataGemHelp': gem_taxonomy_base + 'masonry-reinforced-mr' });
-    /* E99   */ MaterialCB11.push({'_text': 'Earth, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'earth-unknown-reinforcement-e99' });
-    /* EU    */ MaterialCB11.push({'_text': 'Earth, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-unreinforced-eu' });
-    /* ER    */ MaterialCB11.push({'_text': 'Earth, reinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-reinforced-er' });
-    /* W     */ MaterialCB11.push({'_text': 'Wood', 'dataGemHelp': gem_taxonomy_base + 'wood-w' });
-    /* MATO  */ MaterialCB11.push({'_text': 'Other material', 'dataGemHelp': gem_taxonomy_base + 'other-material-mato' });
     select_populate_dict('MaterialCB11', gem_tax['mat']);
+    select_populate_dict('SystemCB11', gem_tax['llrs'], / *\([^\(]*\)$/);
+    select_populate_dict('SystemCB21', gem_tax['llrs_ltwo']);
+    select_populate_dict('SystemCB31', gem_tax['llrs_lone']);
+    select_populate_dict('SystemCB61', gem_tax['llrs_lfour']);
+
     gem$('#MaterialCB11').on('change', taxt_MaterialCB11Select);
     gem$('#MaterialCB21').on('change', taxt_MaterialCB21Select);
     gem$('#MaterialCB31').on('change', taxt_MaterialCB31Select);
     gem$('#MaterialCB41').on('change', taxt_MaterialCB41Select);
     gem$('#SystemCB11').on('change', taxt_SystemCB11Select);
     gem$('#SystemCB21').on('change', taxt_SystemCB21Select);
-
-
-    var MaterialCB12 = [];
-    /* same */ MaterialCB12.push({'_text': 'Unknown Material', 'dataGemHelp': gem_taxonomy_base + 'unknown-material-mat99' });
-    /* same */ MaterialCB12.push({'_text': 'Concrete, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'concrete-unknown-reinforcement-c99' });
-    /* same */ MaterialCB12.push({'_text': 'Concrete, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'concrete-unreinforced-cu' });
-    /* same */ MaterialCB12.push({'_text': 'Concrete, reinforced', 'dataGemHelp': gem_taxonomy_base + 'concrete-reinforced-cr' });
-    /* same */ MaterialCB12.push({'_text': 'Concrete, composite with steel section', 'dataGemHelp': gem_taxonomy_base + 'concrete-composite-with-steel-sections-src' });
-    /* same */ MaterialCB12.push({'_text': 'Steel', 'dataGemHelp': gem_taxonomy_base + 'steel-s' });
-    /* same */ MaterialCB12.push({'_text': 'Metal (except steel)', 'dataGemHelp': gem_taxonomy_base + 'metal-except-steel-me' });
-    /* same */ MaterialCB12.push({'_text': 'Masonry, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'masonry-unknown-reinforcement-m99' });
-    /* same */ MaterialCB12.push({'_text': 'Masonry, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'masonry-unreinforced-mur' });
-    /* same */ MaterialCB12.push({'_text': 'Masonry, confined', 'dataGemHelp': gem_taxonomy_base + 'masonry-confined-mcf' });
-    /* same */ MaterialCB12.push({'_text': 'Masonry, reinforced', 'dataGemHelp': gem_taxonomy_base + 'masonry-reinforced-mr' });
-    /* same */ MaterialCB12.push({'_text': 'Earth, unknown reinforcement', 'dataGemHelp': gem_taxonomy_base + 'earth-unknown-reinforcement-e99' });
-    /* same */ MaterialCB12.push({'_text': 'Earth, unreinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-unreinforced-eu' });
-    /* same */ MaterialCB12.push({'_text': 'Earth, reinforced', 'dataGemHelp': gem_taxonomy_base + 'earth-reinforced-er' });
-    /* same */ MaterialCB12.push({'_text': 'Wood', 'dataGemHelp': gem_taxonomy_base + 'wood-w' });
-    /* same */ MaterialCB12.push({'_text': 'Other material', 'dataGemHelp': gem_taxonomy_base + 'other-material-mato' });
+    gem$('#SystemCB31').on('change', taxt_SystemCB31Select);
+    gem$('#SystemE41').on('change', taxt_SystemE41Select);
+    gem$('#SystemE51').on('change', taxt_SystemE51Select);
+    gem$('#SystemCB61').on('change', taxt_SystemCB61Select);
 
     select_populate_dict('MaterialCB12', gem_tax['mat']);
+    select_populate_dict('SystemCB12', gem_tax['llrs'], / *\([^\(]*\)$/);
+    select_populate_dict('SystemCB22', gem_tax['llrs_ltwo']);
+    select_populate_dict('SystemCB32', gem_tax['llrs_lone']);
+    select_populate_dict('SystemCB62', gem_tax['llrs_lfour']);
+
     gem$('#MaterialCB12').on('change', taxt_MaterialCB12Select);
     gem$('#MaterialCB22').on('change', taxt_MaterialCB22Select);
     gem$('#MaterialCB32').on('change', taxt_MaterialCB32Select);
     gem$('#MaterialCB42').on('change', taxt_MaterialCB42Select);
     gem$('#SystemCB12').on('change', taxt_SystemCB12Select);
     gem$('#SystemCB22').on('change', taxt_SystemCB22Select);
+    gem$('#SystemCB32').on('change', taxt_SystemCB32Select);
+    gem$('#SystemE42').on('change', taxt_SystemE42Select);
+    gem$('#SystemE52').on('change', taxt_SystemE52Select);
+    gem$('#SystemCB62').on('change', taxt_SystemCB62Select);
 
+    if (0 == 1) { // FIXME: to be removed
+    
     var HeightCB1 = [];
     /* H99  */ HeightCB1.push({'_text': 'Unknown number of storeys', 'dataGemHelp': gem_taxonomy_base + 'number-of-stories-unknown-h99' });
     /* HBET */ HeightCB1.push({'_text': 'Range of the number of storeys', 'dataGemHelp': gem_taxonomy_base + 'range-of-number-of-storeys-above-ground-hbet' });
@@ -3962,7 +4186,7 @@ function taxt_Initiate(full) {
     /* FWCP  */ FloorCB3.push({'_text': 'Floor-wall diaphragm connection present', 'dataGemHelp': gem_taxonomy_base + 'floor-wall-diaphragm-connection-present-fwcp' });
     select_populate('FloorCB3', FloorCB3);
     gem$('#FloorCB3').on('change', taxt_FloorCB3Select);
-
+    } // FIXME to be removed later
     // TAIL
     taxt_ValidateMaterial1();
     // taxt_ValidateSystem1(); // disabled because already called at the end of taxt_ValidateMaterial1();
