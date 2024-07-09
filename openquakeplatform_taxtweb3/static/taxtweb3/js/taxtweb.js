@@ -1,7 +1,10 @@
 /*
   TODO:
+         - DONE - fix same breaker
+         - DONE - no same Hybrid sub-materials
          - llrs
-           . numerical values
+           . numerical values check
+           . numerical values build
          - populate
          - manage hybrid special case
          - help links
@@ -264,7 +267,6 @@ function select_populate_dict(id, items)
             item = item.replace(match_cls, '');
         attrs = "";
         gem$('#' + id).append('<option value="' + key + '"' + attrs + '>' + item + '</option>');
-        console.log(item);
     });
 }
 
@@ -393,6 +395,8 @@ function taxt_ValidateMaterial2() // Ok
 function taxt_ValidateMaterial(tab_id) // Ok
 {
     var mat_cb1 = 'MaterialCB1' + tab_id;
+    var mat_cb1a = 'MaterialCB1' + 'A' + tab_id;
+    var mat_cb1b = 'MaterialCB1' + 'B' + tab_id;
     var mat_cb2 = 'MaterialCB2' + tab_id;
     var mat_cb3 = 'MaterialCB3' + tab_id;
     var mat_cb4 = 'MaterialCB4' + tab_id;
@@ -406,8 +410,27 @@ function taxt_ValidateMaterial(tab_id) // Ok
     var key_cur = gem$('#' + mat_cb1).val();
     if (key_cur in gem_tax['mat_grps']) {
         var mat_grp = gem_tax['mat_grps'][key_cur];
-        select_populate_dict(mat_cb2, gem_tax['mat_lone'][mat_grp]);
-        gem$('#' + mat_cb2).prop("disabled", false);
+
+        if (mat_grp == 'hybrid') {
+            var primary_id = tab_id.substr(0, 1);
+            select_populate_dict(mat_cb1a, gem_tax['mat_hyb']);
+            select_populate_dict(mat_cb1b, gem_tax['mat_hyb']);
+            gem$('#MaterialHybrid' + tab_id).css('display', '');
+            gem$('#' + mat_cb2).prop("disabled", true);
+            gem$('#' + mat_cb3).prop("disabled", true);
+        }
+        else {
+            gem$('#MaterialHybrid' + tab_id).css('display', 'none');
+            gem$('#' + mat_cb1a).empty();
+            gem$('#' + mat_cb1b).empty();
+        }
+        if (mat_grp in gem_tax['mat_lone']) {
+            select_populate_dict(mat_cb2, gem_tax['mat_lone'][mat_grp]);
+            gem$('#' + mat_cb2).prop("disabled", false);
+        }
+        else {
+            gem$('#' + mat_cb2).prop("disabled", true);
+        }
         if (mat_grp in gem_tax['mat_loneone']) {
             select_populate_dict(mat_cb3, gem_tax['mat_loneone'][mat_grp]);
             gem$('#' + mat_cb3).prop("disabled", false);
@@ -417,6 +440,7 @@ function taxt_ValidateMaterial(tab_id) // Ok
         }
     }
     else {
+        gem$('#MaterialHybrid' + tab_id).css('display', 'none');
         gem$('#' + mat_cb2).prop("disabled", true);
         gem$('#' + mat_cb3).prop("disabled", true);
     }
@@ -1266,6 +1290,8 @@ function taxt_BreakDirection2(obj) // Ok
     }
     if (gem$('#DirectionCB').prop('checked')) {
         if (gem$('#MaterialCB12').val() != gem$('#MaterialCB11').val() ||
+            gem$('#MaterialCB1A2').val() != gem$('#MaterialCB1A1').val() ||
+            gem$('#MaterialCB1B2').val() != gem$('#MaterialCB1B1').val() ||
             gem$('#MaterialCB22').val() != gem$('#MaterialCB21').val() ||
             gem$('#MaterialCB32').val() != gem$('#MaterialCB31').val() ||
             gem$('#MaterialCB42').val() != gem$('#MaterialCB41').val() ||
@@ -1286,6 +1312,13 @@ function taxt_SetDirection2(obj) // Ok
         // FIXME: for hybrid types an external loop is required
         gem$('#MaterialCB12').val(gem$('#MaterialCB11').val());
         taxt_MaterialCB12Select();
+        if (gem$('#MaterialCB11').val() == 'HYB') {
+            gem$('#MaterialCB1A2').val(gem$('#MaterialCB1A1').val());
+            taxt_MaterialCB1A2Select();
+            gem$('#MaterialCB1B2').val(gem$('#MaterialCB1B1').val());
+            taxt_MaterialCB1B2Select();
+        }
+
         gem$('#MaterialCB22').val(gem$('#MaterialCB21').val());
         taxt_MaterialCB22Select();
         gem$('#MaterialCB32').val(gem$('#MaterialCB31').val());
@@ -1325,6 +1358,38 @@ function taxt_MaterialCB12Select(obj) // Ok
     taxt_ValidateSystem2();
     taxt_BuildTaxonomy();
 }
+
+
+
+function taxt_MaterialCB1A1Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_MaterialCB1B1Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_MaterialCB1A2Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+function taxt_MaterialCB1B2Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+
+
+
+
+
 
 function taxt_MaterialCB21Select(obj) // Ok
 {
@@ -1665,13 +1730,21 @@ function BuildTaxonomyString(out_type)
         Taxonomy[i] = "";
     /* Structural System: Direction X */
 
-    var t_mat_typ, t_mat_tec, t_mat_pro, t_mat_tea, t_llrs_typ, t_llrs_duc,
+    var t_mat_typ, t_mat_hyb_a, t_mat_hyb_b, t_mat_tec, t_mat_pro, t_mat_tea, t_llrs_typ, t_llrs_duc,
         t_llrs_clv, t_llrs_coe, t_llrs_cwd, t_llrs_add;
 
     // MATERIAL X
     t_mat_typ = gem$('#MaterialCB11').val();
-    if (t_mat_typ != '--')
-        Taxonomy[0] = t_mat_typ;
+    if (t_mat_typ != '--') {
+        if (t_mat_typ == 'HYB') {
+            t_mat_hyb_a = gem$('#MaterialCB1A1').val();
+            t_mat_hyb_b = gem$('#MaterialCB1B1').val();
+            Taxonomy[0] = t_mat_typ + '(' + t_mat_hyb_a + ',' + t_mat_hyb_b + ')';
+        }
+        else {
+            Taxonomy[0] = t_mat_typ;
+        }
+    }
     else if(out_type == 0)
         Taxonomy[0] = 'MAT99';
 
@@ -1742,8 +1815,16 @@ function BuildTaxonomyString(out_type)
     
     // MATERIAL Y
     t_mat_typ = gem$('#MaterialCB12').val();
-    if (t_mat_typ != '--')
-        Taxonomy[5] = t_mat_typ;
+    if (t_mat_typ != '--') {
+        if (t_mat_typ == 'HYB') {
+            t_mat_hyb_a = gem$('#MaterialCB1A2').val();
+            t_mat_hyb_b = gem$('#MaterialCB1B2').val();
+            Taxonomy[5] = t_mat_typ + '(' + t_mat_hyb_a + ',' + t_mat_hyb_b + ')';
+        }
+        else {
+            Taxonomy[5] = t_mat_typ;
+        }
+    }
     else if(out_type == 0)
         Taxonomy[5] = 'MAT99';
 
@@ -2952,6 +3033,29 @@ function taxt_BuildTaxonomy()
 
     /* validation part: '#HeightCBx' are dropdown menus with it's current selected item */
 
+    for (var i = 1 ; i <= 2 ; i++) {
+        var mat, hyb_mat_a, hyb_mat_b;
+        mat = gem$('#MaterialCB1' + i).val();
+        if (mat == 'HYB') {
+            hyb_mat_a = gem$('#MaterialCB1A' + i).val();
+            hyb_mat_b = gem$('#MaterialCB1B' + i).val();
+
+            if (hyb_mat_a == hyb_mat_b) {
+                gem$('#MaterialCB1A' + i).addClass('gem_field_alert');
+                gem$('#MaterialCB1B' + i).addClass('gem_field_alert');
+            }
+            else {
+                gem$('#MaterialCB1A' + i).removeClass('gem_field_alert');
+                gem$('#MaterialCB1B' + i).removeClass('gem_field_alert');
+            }
+        }
+    }
+
+    var llrs_coef, llrs_wden;
+
+    llrs_coef = gem$('#SystemE41').val();
+    llrs_wden = gem$('#SystemE51').val();
+
     var height1 = gem$('#HeightCB1').val();
     var height2 = gem$('#HeightCB2').val();
     var height3 = gem$('#HeightCB3').val();
@@ -3943,12 +4047,16 @@ function taxt_Initiate(full) {
     gem$('#DirectionCB').on('change', taxt_SetDirection2);
 
     select_populate_dict('MaterialCB11', gem_tax['mat']);
+    select_populate_dict('MaterialCB1A1', gem_tax['mat_hyb']);
+    select_populate_dict('MaterialCB1B1', gem_tax['mat_hyb']);
     select_populate_dict('SystemCB11', gem_tax['llrs'], / *\([^\(]*\)$/);
     select_populate_dict('SystemCB21', gem_tax['llrs_ltwo']);
     select_populate_dict('SystemCB31', gem_tax['llrs_lone']);
     select_populate_dict('SystemCB61', gem_tax['llrs_lfour']);
 
     gem$('#MaterialCB11').on('change', taxt_MaterialCB11Select);
+    gem$('#MaterialCB1A1').on('change', taxt_MaterialCB1A1Select);
+    gem$('#MaterialCB1B1').on('change', taxt_MaterialCB1B1Select);
     gem$('#MaterialCB21').on('change', taxt_MaterialCB21Select);
     gem$('#MaterialCB31').on('change', taxt_MaterialCB31Select);
     gem$('#MaterialCB41').on('change', taxt_MaterialCB41Select);
@@ -3960,12 +4068,16 @@ function taxt_Initiate(full) {
     gem$('#SystemCB61').on('change', taxt_SystemCB61Select);
 
     select_populate_dict('MaterialCB12', gem_tax['mat']);
+    select_populate_dict('MaterialCB1A2', gem_tax['mat_hyb']);
+    select_populate_dict('MaterialCB1B2', gem_tax['mat_hyb']);
     select_populate_dict('SystemCB12', gem_tax['llrs'], / *\([^\(]*\)$/);
     select_populate_dict('SystemCB22', gem_tax['llrs_ltwo']);
     select_populate_dict('SystemCB32', gem_tax['llrs_lone']);
     select_populate_dict('SystemCB62', gem_tax['llrs_lfour']);
 
     gem$('#MaterialCB12').on('change', taxt_MaterialCB12Select);
+    gem$('#MaterialCB1A2').on('change', taxt_MaterialCB1B2Select);
+    gem$('#MaterialCB1B2').on('change', taxt_MaterialCB1B2Select);
     gem$('#MaterialCB22').on('change', taxt_MaterialCB22Select);
     gem$('#MaterialCB32').on('change', taxt_MaterialCB32Select);
     gem$('#MaterialCB42').on('change', taxt_MaterialCB42Select);

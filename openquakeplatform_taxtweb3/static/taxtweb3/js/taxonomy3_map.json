@@ -129,6 +129,19 @@
             "RCB": "Reinforced concrete bands"
         }
     },
+    "mat_hyb": {
+        "CR": "Concrete, reinforced",
+        "CU": "Concrete, unreinforced",
+        "S": "Steel",
+        "M": "Masonry, unknown reinforcement",
+        "MUR": "Masonry, unreinforced",
+        "MCF": "Masonry, confined",
+        "MR": "Masonry, reinforced",
+        "MUR-ST": "Stone masonry, unreinforced",
+        "ER": "Earth, reinforced",
+        "EU": "Earth, unreinforced (or mud)",
+        "W": "Wood"
+    },
     "llrs": {
         "--": "Unknown lateral load-resisting system",
         "LN": "No lateral load-resisting system",
