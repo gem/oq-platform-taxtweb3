@@ -2,11 +2,11 @@
   TODO:
          - DONE - fix same breaker
          - DONE - no same Hybrid sub-materials
-         - llrs
-           . numerical values check
-           . numerical values build
+         - DONE llrs
+           . DONE - numerical values check
+           . DONE - numerical values build
          - populate
-         - manage hybrid special case
+           . manage hybrid special case
          - help links
 */
 
@@ -321,9 +321,9 @@ function taxt_ValidateSystem(tab_id) // Ok
             gem$('#' + sys_cb6).empty();
             gem$('#' + sys_cb6).prop("disabled", true);
         }
-        
+
         if (0 == 1) {
-        
+
             var SystemCB21 = [];
             /* DU99  */ SystemCB21.push({'_text': 'Ductility unknown', 'dataGemHelp': gem_taxonomy_base + 'ductility-unknown-du99' });
             /* DUC   */ SystemCB21.push({'_text': 'Ductile', 'dataGemHelp': gem_taxonomy_base + 'ductile-duc' });
@@ -1770,14 +1770,14 @@ function BuildTaxonomyString(out_type)
     t_llrs_typ = gem$('#SystemCB11').val();
     if (t_llrs_typ != null && t_llrs_typ != '--') {
         Taxonomy[3] = t_llrs_typ;
-        
+
         t_llrs_add = gem$('#SystemCB61').val();
         if (t_llrs_add != null && t_llrs_add != '--')
             Taxonomy[3] += '(' + t_llrs_add + ')';
     }
     else
         Taxonomy[3] = '';
-        
+
     t_llrs_duc = gem$('#SystemCB21').val();
     if (t_llrs_duc != null && t_llrs_duc != '--')
         Taxonomy[4] = '-' + t_llrs_duc;
@@ -1792,7 +1792,7 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_coe =  gem$('#SystemE41').val();
     if (t_llrs_coe != null && t_llrs_coe != '')
-        Taxonomy[37] = '-LFC:' + t_llrs_coe;
+        Taxonomy[37] = '-LFC:' + parseFloat(t_llrs_coe);
     else
         Taxonomy[37] = '';
 
@@ -1812,7 +1812,7 @@ function BuildTaxonomyString(out_type)
         '/' + Taxonomy[8] + Taxonomy[9] + Taxonomy[40] + Taxonomy[41] + + Taxonomy[42] + Taxonomy[43] + 
 
     */
-    
+
     // MATERIAL Y
     t_mat_typ = gem$('#MaterialCB12').val();
     if (t_mat_typ != '--') {
@@ -1850,7 +1850,7 @@ function BuildTaxonomyString(out_type)
     t_llrs_typ = gem$('#SystemCB12').val();
     if (t_llrs_typ != null && t_llrs_typ != '--') {
         Taxonomy[8] = t_llrs_typ;
-        
+
         t_llrs_add = gem$('#SystemCB62').val();
         if (t_llrs_add != null && t_llrs_add != '--')
             Taxonomy[8] += '(' + t_llrs_add + ')';
@@ -1858,7 +1858,7 @@ function BuildTaxonomyString(out_type)
     else
         Taxonomy[8] = '';
 
-    
+
     t_llrs_duc = gem$('#SystemCB22').val();
     if (t_llrs_duc != null && t_llrs_duc != '--')
         Taxonomy[9] = '-' + t_llrs_duc;
@@ -1874,7 +1874,7 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_coe =  gem$('#SystemE42').val();
     if (t_llrs_coe != null && t_llrs_coe != '')
-        Taxonomy[41] = '-LFC:' + t_llrs_coe;
+        Taxonomy[41] = '-LFC:' + parseFloat(t_llrs_coe);
     else
         Taxonomy[41] = '';
 
@@ -1884,7 +1884,7 @@ function BuildTaxonomyString(out_type)
     else
         Taxonomy[42] = '';
 
-    
+
 if (1 == 0) { // FIXME: remove when finished
     if (gem$('#MaterialCB11').val() == 5) {
         if ( gem$('#MaterialCB31').val() == 0 && (out_type == 0) )
@@ -3049,12 +3049,32 @@ function taxt_BuildTaxonomy()
                 gem$('#MaterialCB1B' + i).removeClass('gem_field_alert');
             }
         }
+
+        var llrs_coef, llrs_wden;
+
+        llrs_coef = gem$('#SystemE4' + i).val();
+        llrs_wden = gem$('#SystemE5' + i).val();
+
+        if (llrs_coef != '') {
+            if (parseFloat(llrs_coef) >= 0.0 && parseFloat(llrs_coef) <= 100.0) {
+                gem$('#SystemE4' + i).removeClass('gem_field_alert');
+            }
+            else {
+                gem$('#SystemE4' + i).addClass('gem_field_alert');
+            }
+            gem$('#SystemE4' + i).val(parseFloat(llrs_coef));
+        }
+
+        if (llrs_wden != '') {
+            if (parseFloat(llrs_wden) >= 0.0 && parseFloat(llrs_wden) <= 1.0) {
+                gem$('#SystemE5' + i).removeClass('gem_field_alert');
+            }
+            else {
+                gem$('#SystemE5' + i).addClass('gem_field_alert');
+            }
+            gem$('#SystemE5' + i).val(parseFloat(llrs_wden));
+        }
     }
-
-    var llrs_coef, llrs_wden;
-
-    llrs_coef = gem$('#SystemE41').val();
-    llrs_wden = gem$('#SystemE51').val();
 
     var height1 = gem$('#HeightCB1').val();
     var height2 = gem$('#HeightCB2').val();
@@ -4089,7 +4109,7 @@ function taxt_Initiate(full) {
     gem$('#SystemCB62').on('change', taxt_SystemCB62Select);
 
     if (0 == 1) { // FIXME: to be removed
-    
+
     var HeightCB1 = [];
     /* H99  */ HeightCB1.push({'_text': 'Unknown number of storeys', 'dataGemHelp': gem_taxonomy_base + 'number-of-stories-unknown-h99' });
     /* HBET */ HeightCB1.push({'_text': 'Range of the number of storeys', 'dataGemHelp': gem_taxonomy_base + 'range-of-number-of-storeys-above-ground-hbet' });
