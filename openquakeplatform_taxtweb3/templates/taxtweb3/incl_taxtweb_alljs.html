@@ -11,6 +11,10 @@ var gem_taxonomy_base = '{{ taxonomy_base }}';
 var gem$ = {{ jquery }};
 
 var gem_tax = null;
+var gem_tax_subsep = '-';
+
+var tid_xdir = 0, tid_xmat = 1, tid_xllrs = 2, 
+    tid_ydir = 3, tid_ymat = 4, tid_yllrs = 5;
 
 var gem_taxtweb_cookiepath = "/taxtweb3/";
 
@@ -278,7 +282,7 @@ function gem_help_cb(event)
     }
     document.body.className = gem_help_old_body_class;
 }
-          
+
 window.onload = function () {
     fetch('{{ STATIC_URL }}taxtweb3/js/taxonomy3_map.json')
         .then((response) => response.json())

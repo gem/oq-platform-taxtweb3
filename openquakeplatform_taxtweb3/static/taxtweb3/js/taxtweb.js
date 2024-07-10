@@ -1750,19 +1750,19 @@ function BuildTaxonomyString(out_type)
 
     t_mat_tec = gem$('#MaterialCB21').val();
     if (t_mat_tec != null && t_mat_tec != '--')
-        Taxonomy[1] = '-' + t_mat_tec;
+        Taxonomy[1] = gem_tax_subsep + t_mat_tec;
     else
         Taxonomy[1] = '';
 
     t_mat_pro = gem$('#MaterialCB31').val();
     if (t_mat_pro != null && t_mat_pro != '--')
-        Taxonomy[2] = '-' + t_mat_pro;
+        Taxonomy[2] = gem_tax_subsep + t_mat_pro;
     else
         Taxonomy[2] = '';
 
     t_mat_tea = gem$('#MaterialCB41').val();
     if (t_mat_tea != null && t_mat_tea != '--')
-        Taxonomy[34] = '-' + t_mat_tea;
+        Taxonomy[34] = gem_tax_subsep + t_mat_tea;
     else
         Taxonomy[34] = '';
 
@@ -1780,13 +1780,13 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_duc = gem$('#SystemCB21').val();
     if (t_llrs_duc != null && t_llrs_duc != '--')
-        Taxonomy[4] = '-' + t_llrs_duc;
+        Taxonomy[4] = gem_tax_subsep + t_llrs_duc;
     else
         Taxonomy[4] = '';
 
     t_llrs_clv = gem$('#SystemCB31').val();
     if (t_llrs_clv != null && t_llrs_clv != '--')
-        Taxonomy[36] = '-' + t_llrs_clv;
+        Taxonomy[36] = gem_tax_subsep + t_llrs_clv;
     else
         Taxonomy[36] = '';
 
@@ -1830,19 +1830,19 @@ function BuildTaxonomyString(out_type)
 
     t_mat_tec = gem$('#MaterialCB22').val();
     if (t_mat_tec != null && t_mat_tec != '--')
-        Taxonomy[6] = '-' + t_mat_tec;
+        Taxonomy[6] = gem_tax_subsep + t_mat_tec;
     else
         Taxonomy[6] = '';
 
     t_mat_pro = gem$('#MaterialCB32').val();
     if (t_mat_pro != null && t_mat_pro != '--')
-        Taxonomy[7] = '-' + t_mat_pro;
+        Taxonomy[7] = gem_tax_subsep + t_mat_pro;
     else
         Taxonomy[7] = '';
 
     t_mat_tea = gem$('#MaterialCB42').val();
     if (t_mat_tea != null && t_mat_tea != '--')
-        Taxonomy[35] = '-' + t_mat_tea;
+        Taxonomy[35] = gem_tax_subsep + t_mat_tea;
     else
         Taxonomy[35] = '';
 
@@ -1861,14 +1861,14 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_duc = gem$('#SystemCB22').val();
     if (t_llrs_duc != null && t_llrs_duc != '--')
-        Taxonomy[9] = '-' + t_llrs_duc;
+        Taxonomy[9] = gem_tax_subsep + t_llrs_duc;
     else
         Taxonomy[9] = '';
 
 
     t_llrs_clv = gem$('#SystemCB32').val();
     if (t_llrs_clv != null && t_llrs_clv != '--')
-        Taxonomy[40] = '-' + t_llrs_clv;
+        Taxonomy[40] = gem_tax_subsep + t_llrs_clv;
     else
         Taxonomy[40] = '';
 
@@ -4421,6 +4421,9 @@ function populate(s, ret_s) {
     var sar, subar, dirx, diry, el;
     var mat;
 
+    console.log('populate: [' + s + ']');
+
+
     sar = s.split('/');
     gem$('#DirectionCB').prop('checked', false);
 
@@ -4429,11 +4432,11 @@ function populate(s, ret_s) {
     //
     dirx = sar[0];
     diry = sar[3];
-    if (dirx == "DX+D99" && diry == "DY+D99") {
+    if ((dirx == "" || dirx == "--") && (diry == "" || diry == "--")) {
         gem$("#Direction1RB1").prop("checked", true);
         taxt_Direction1RB1Click(null);
     }
-    else if (dirx == "DX+PF" && diry == "DY+OF") {
+    else if (dirx == "DXP" && diry == "DYO") {
         gem$("#Direction1RB2").prop("checked", true);
         taxt_Direction1RB2Click(null);
     }
@@ -4453,24 +4456,97 @@ function populate(s, ret_s) {
     var mat_tead_selec = [ taxt_MaterialCB41Select, taxt_MaterialCB42Select ];
     var mat_prop_ddown = [ '#MaterialCB31', '#MaterialCB32' ];
     var mat_prop_selec = [ taxt_MaterialCB31Select, taxt_MaterialCB32Select ];
+    var mat_hyb_ddown = [ ['#MaterialCB1A1', '#MaterialCB1B1'],['#MaterialCB1A2', '#MaterialCB1B2']];
+    var mat_hyb_selec = [ [taxt_MaterialCB1A1Select, taxt_MaterialCB1B1Select], [taxt_MaterialCB1A2Select, taxt_MaterialCB1B2Select]];
+
     var llrs_ddown = [ '#SystemCB11', '#SystemCB12' ];
     var llrs_selec = [ taxt_SystemCB11Select, taxt_SystemCB12Select ];
     var llrs_duct_ddown = [ '#SystemCB21', '#SystemCB22' ];
     var llrs_duct_selec = [ taxt_SystemCB21Select, taxt_SystemCB22Select ];
 
-    var mat_id, mat_atom, llrs, llrs_atom;
-
     for (direct = 0 ; direct < 2 ; direct++) {
-        mat  = sar[1+(direct * 3)].split('+');
-        llrs = sar[2+(direct * 3)].split('+');
-        if (mat.length < 1) {
-            ret_s.s = "Not defined material for 'Direction " + (direct == 0 ? "X" : "Y") + "'";
+        var t_attr = sar[1+direct * 3];
+        var t_subattrs = taxonomy_splitattr(t_attr);
+        if (t_subattrs.length == 0)
+            break;
+        var t_sub_first = t_subattrs[0][0];
+        var t_sub_first_name = taxonomy_attrname(t_sub_first);
+
+        if (t_sub_first_name in gem_tax['mat']) {
+            gem$(mat_ddown[direct]).val(t_sub_first_name);
+            mat_selec[direct]();
+
+            if (t_sub_first_name == 'HYB') {
+                var args = taxonomy_attrargs(t_sub_first);
+                for (arg_id = 0 ; arg_id < args.length ; arg_id++) {
+                    var arg = args[arg_id];
+
+                    if (arg in gem_tax['mat_hyb']) {
+                        gem$(mat_hyb_ddown[direct][arg_id]).val(arg);
+                        mat_hyb_selec[direct][arg_id]();
+                    }
+                    else {
+                        ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', material '" + t_sub_first_name + "', argument '" + arg + "' not identified.";
+                        return (false);
+                    }
+                }
+            }
+
+
+            for (var sub_id = 1 ; sub_id < t_subattrs.length ; sub_id++) {
+                var t_subattr = t_subattrs[sub_id][0];
+                var t_subattr_name = taxonomy_attrname(t_subattr);
+
+                if (t_sub_first_name in gem_tax['mat_grps']) {
+                    var grp = gem_tax['mat_grps'][t_sub_first_name];
+
+                    // special case for HYBrid material
+                    if (grp in gem_tax['mat_lone']) {
+                        if (t_subattr_name in gem_tax['mat_lone'][grp]) {
+                            gem$(mat_tecn_ddown[direct]).val(t_subattr_name);
+                            mat_tecn_selec[direct]();
+                            continue;
+                        }
+                    }
+                    if (grp in gem_tax['mat_loneone']) {
+                        if (t_subattr_name in gem_tax['mat_loneone'][grp]) {
+                            gem$(mat_prop_ddown[direct]).val(t_subattr_name);
+                            mat_prop_selec[direct]();
+                            continue;
+                        }
+                    }
+                    if (t_sub_first_name in gem_tax['mat_ltwo']) {
+                        if (t_subattr_name in gem_tax['mat_ltwo'][t_sub_first_name]) {
+                            gem$(mat_tead_ddown[direct]).val(t_subattr_name);
+                            mat_tead_selec[direct]();
+                            continue;
+                        }
+                    }
+                }
+            ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', material property '" + t_subattr_name + "' not identified.";
+            return (false);
+            }
+        }
+        else {
+            ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', material '" + t_sub_first_name + "' not identified.";
             return (false);
         }
-        if (llrs.length < 1) {
-            ret_s.s = "Not defined LLRS for 'Direction " + (direct == 0 ? "X" : "Y") + "'";
-            return (false);
-        }
+    }
+    return (true);
+
+    if (false) {
+        var mat_id, mat_atom, llrs, llrs_atom;
+
+        mat  = taxonomy_splitsubattr(sar[1+(direct * 3)]);
+        llrs = taxonomy_splitsubattr(sar[2+(direct * 3)]);
+        // if (mat.length < 1) {
+        //     ret_s.s = "Not defined material for 'Direction " + (direct == 0 ? "X" : "Y") + "'";
+        //     return (false);
+        // }
+        // if (llrs.length < 1) {
+        //     ret_s.s = "Not defined LLRS for 'Direction " + (direct == 0 ? "X" : "Y") + "'";
+        //     return (false);
+        // }
 
         for (i = 0 ; i < material.length ; i++) {
             if (mat[0] == material[i].id) {
