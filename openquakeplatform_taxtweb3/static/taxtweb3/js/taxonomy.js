@@ -61,6 +61,68 @@ function taxonomy_short2full(t_short)
             continue;
         }
         else if (t_sub_first_name in gem_tax['mat']) {
+            if (t_sub_first_name in gem_tax['mat_hyb_grps']) {
+                var mat_hyb = gem_tax['mat_hyb'][gem_tax['mat_hyb_grps'][t_sub_first_name]];
+                var args = taxonomy_attrargs(t_sub_first);
+                if (!('--' in mat_hyb['val'])) {
+                    if (args.length != mat_hyb['sfxs'].length) {
+                        return ({ result: null, err_s: "Wrong number of arguments (must be " + mat_hyb['sfxs'].length + ")" });
+                    }
+                }
+                for (var e = 0 ; e < args.length ; e++) {
+                    var arg = args[e];
+                    if (!(arg in mat_hyb['val'])) {
+                        return ({ result: null, err_s: "Unknown hybrid material component '" + arg + "'" });
+                    }
+                }
+            }
+
+            var el_lone = el_loneone = el_ltwo = '';
+            for (var e = 1 ; e < t_subattrs.length ; e++) {
+                var t_subattr = t_subattrs[e][0];
+                var t_subattr_name = taxonomy_attrname(t_subattr);
+
+                console.log('t_subattr: ' + t_subattr);
+                console.log('t_subattr_name: ' + t_subattr_name);
+
+                if (t_sub_first_name in gem_tax['mat_grps']) {
+                    // special case for HYBrid material
+                    if (grp in gem_tax['mat_lone']) {
+                        if (t_subattr_name in gem_tax['mat_lone'][grp]) {
+                            el_lone = gem_tax_subsep + t_subbattr;
+                            continue;
+                        }
+                    }
+                    if (grp in gem_tax['mat_loneone']) {
+                        if (t_subattr_name in gem_tax['mat_loneone'][grp]) {
+                            el_loneone = gem_tax_subsep + t_subbattr;
+                            continue;
+                        }
+                    }
+                    if (t_sub_first_name in gem_tax['mat_ltwo']) {
+                        if (t_subattr_name in gem_tax['mat_ltwo'][t_sub_first_name]) {
+                            el_ltwo = gem_tax_subsep + t_subbattr;
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            tfull[tid_ymat] = t_sub_first + el_lone + el_loneone + el_ltwo;
+            if (is_first_material) {
+                tfull[tid_xmat] = tfull[tid_ymat];
+            }
+            is_first_material = false;
+            continue;
+        }
+        else if (t_sub_first_name in gem_tax['llrs']) {
+
+
+
+
+
+
+
             if (t_sub_first_name in gem_tax['mat_grps']) {
                 var grp = gem_tax['mat_grps'][t_sub_first_name];
                 if (grp == 'hybrid') {
@@ -79,7 +141,7 @@ function taxonomy_short2full(t_short)
                 }
             }
 
-            // FIXME: reorder components HERE with different subel in a prefixed sequence
+            var el_lone = el_loneone = el_two = '';
             for (var e = 1 ; e < t_subattrs.length ; e++) {
                 var t_subattr = t_subattrs[e][0];
                 var t_subattr_name = taxonomy_attrname(t_subattr);
@@ -91,32 +153,37 @@ function taxonomy_short2full(t_short)
                     // special case for HYBrid material
                     if (grp in gem_tax['mat_lone']) {
                         if (t_subattr_name in gem_tax['mat_lone'][grp]) {
+                            el_lone = gem_tax_subsep + t_subbattr;
                             continue;
                         }
                     }
                     if (grp in gem_tax['mat_loneone']) {
                         if (t_subattr_name in gem_tax['mat_loneone'][grp]) {
+                            el_loneone = gem_tax_subsep + t_subbattr;
                             continue;
                         }
                     }
                     if (t_sub_first_name in gem_tax['mat_ltwo']) {
                         if (t_subattr_name in gem_tax['mat_ltwo'][t_sub_first_name]) {
+                            el_ltwo = gem_tax_subsep + t_subbattr;
                             continue;
                         }
                     }
                 }
             }
 
+            tfull[tid_ymat] = t_sub_first + el_lone + el_loneone + el_ltwo;
             if (is_first_material) {
-                tfull[tid_xmat] = t_el;
-                tfull[tid_ymat] = t_el;
-            }
-            else {
-                tfull[tid_ymat] = t_el;
+                tfull[tid_xmat] = tfull[tid_ymat];
             }
             continue;
-        }
-        else if (t_sub_first_name in gem_tax['llrs']) {
+
+
+
+
+
+
+
             console.log('HERE LLRS');
             if (is_first_llrs) {
                 tfull[tid_xllrs] = t_el;
@@ -130,7 +197,7 @@ function taxonomy_short2full(t_short)
     // for (var e = 0 ; e < t_subattrs.length ; e++) {
 
     console.log(t_short);
-    console.log(tfull.join('/'));
+    console.log('taxonomy_short2full: ' + tfull.join('/'));
     return ({result: tfull.join('/'), err_s: null});
 }
 

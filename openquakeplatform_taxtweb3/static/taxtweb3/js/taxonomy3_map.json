@@ -19,6 +19,30 @@
         "INF": "Informal materials",
         "MATO": "Other material"
     },
+    "mat_hyb_grps": {
+        "HYB": "HYB"
+    },
+    "mat_hyb": {
+        "HYB": {
+            "sfxs": [
+                "1A",
+                "1B"
+            ],
+            "val": {
+                "CR": "Concrete, reinforced",
+                "CU": "Concrete, unreinforced",
+                "S": "Steel",
+                "M": "Masonry, unknown reinforcement",
+                "MUR": "Masonry, unreinforced",
+                "MCF": "Masonry, confined",
+                "MR": "Masonry, reinforced",
+                "MUR-ST": "Stone masonry, unreinforced",
+                "ER": "Earth, reinforced",
+                "EU": "Earth, unreinforced (or mud)",
+                "W": "Wood"
+            }
+        }
+    },
     "mat_grps": {
         "C": "grp_C",
         "CU": "grp_CU",
@@ -129,19 +153,6 @@
             "RCB": "Reinforced concrete bands"
         }
     },
-    "mat_hyb": {
-        "CR": "Concrete, reinforced",
-        "CU": "Concrete, unreinforced",
-        "S": "Steel",
-        "M": "Masonry, unknown reinforcement",
-        "MUR": "Masonry, unreinforced",
-        "MCF": "Masonry, confined",
-        "MR": "Masonry, reinforced",
-        "MUR-ST": "Stone masonry, unreinforced",
-        "ER": "Earth, reinforced",
-        "EU": "Earth, unreinforced (or mud)",
-        "W": "Wood"
-    },
     "llrs": {
         "--": "Unknown lateral load-resisting system",
         "LN": "No lateral load-resisting system",
@@ -156,6 +167,50 @@
         "LHV": "LHV(sys_a-sys_b), hybrid LLRS in height \n(a= primary system and secondary system)",
         "LHP": "LHP(sys_a-sys_b), hybrid LLRS in plan \n(a= primary system and secondary system)",
         "LO": "Other lateral load-resisting system"
+    },
+    "llrs_hyb_grps": {
+        "LHV": "LH",
+        "LHP": "LH",
+        "LFINF": "LFINF"
+    },
+    "llrs_hyb": {
+        "LH": {
+            "sfxs": [
+                "1A",
+                "1B"
+            ],
+            "val": {
+                "LN": "No LLRS",
+                "LFM": "Moment frame",
+                "LFINF": "Infilled frame",
+                "LFBR": "Braced frame",
+                "LPB": "Post and beam",
+                "LWAL": "Wall",
+                "LDUAL": "Dual frame-wall system",
+                "LFLS": "Flat slab/plate or waffle slab",
+                "LFLSINF": "Infilled flat slab/plate or infilled waffle slab",
+                "LO": "Other LLRS"
+            }
+        },
+        "LFINF": {
+            "sfxs": [
+                "6"
+            ],
+            "val": {
+                "--": "Infill material unknown",
+                "MUR": "Unreinforced masonry",
+                "MUR-CL": "Unreinforced masonry, fired clay bricks",
+                "MUR-CLB": "Unreinforced masonry, fired clay hollow blocks or tiles",
+                "MUR-AAC": "Unreinforced masonry, AAC blocks (aerated autoclaved blocks)",
+                "MUR-FAB": "Unreinforced masonry, flyash bricks",
+                "MUR-CBH": "Unreinforced masonry, hollow concrete blocks",
+                "MUR-CBS": "Unreinforced masonry, solid concrete blocks",
+                "MR": "Reinforced masonry",
+                "MR-CL": "Reinforced masonry, clay brick",
+                "MR-CB": "Reinforced masonry, concrete block",
+                "MUR-ST": "Unreinforced stone masonry"
+            }
+        }
     },
     "llrs_lone": {
         "--": "Ductility unknown",
@@ -189,19 +244,5 @@
     },
     "llrs_lthree": {
         "DCW": "Float specifying the density or ratio between the area of columns and/or walls and the area of the building plan.\n(DCW <= 1)"
-    },
-    "llrs_lfour": {
-        "--": "Infill material unknown",
-        "MUR": "Unreinforced masonry",
-        "MUR-CL": "Unreinforced masonry, fired clay bricks",
-        "MUR-CLB": "Unreinforced masonry, fired clay hollow blocks or tiles",
-        "MUR-AAC": "Unreinforced masonry, AAC blocks (aerated autoclaved blocks)",
-        "MUR-FAB": "Unreinforced masonry, flyash bricks",
-        "MUR-CBH": "Unreinforced masonry, hollow concrete blocks",
-        "MUR-CBS": "Unreinforced masonry, solid concrete blocks",
-        "MR": "Reinforced masonry",
-        "MR-CL": "Reinforced masonry, clay brick",
-        "MR-CB": "Reinforced masonry, concrete block",
-        "MUR-ST": "Unreinforced stone masonry"
     }
 }

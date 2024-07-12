@@ -21,6 +21,12 @@
                     </tr></table>
                 </div>
 
+
+
+
+
+
+                
                 <div class="data-group">
                     <h4 data-gem-help="{{ taxonomy_base }}material-of-the-lateral-load-resisting-system">Material of lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
@@ -35,7 +41,7 @@
                                  <select  id="MaterialCB41"></select></div></td>
                     </tr></table>
 
-                    <div class="data-group" id="MaterialHybrid1" style="display: none;">
+                    <div class="data-group" id="MaterialHybridHYB1" style="display: none;">
                       <h4 data-gem-help="{{ taxonomy_base }}material-of-the-lateral-load-resisting-system">Hybrid Material (material A, material B),
  two main materials of the LLRS</h4>
                       <table class="dir_spec"><tr>
@@ -48,6 +54,13 @@
 
                 </div>
 
+
+
+
+
+
+
+                
                 <div class="data-group">
                     <h4 data-gem-help="{{ taxonomy_base }}lateral-load-resisting-system">Lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
@@ -58,20 +71,35 @@
                       </tr>
                       <tr>
                         <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">System code level:</span><br>
-                          <select id="SystemCB31"></select></div></td>
+                            <select id="SystemCB31"></select></div></td>
                         <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Lateral load coefficient (% 0-100.0):</span><br>
-                            <div style="white-space:nowrap;"><input type="text" id="SystemE41"></div>
+                            <input type="text" id="SystemE41"></div>
                         </td>
                       </tr>
                       <tr>
-                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density (0.0-1.0):</span><br>
-                            <div style="white-space:nowrap;"><input type="text" id="SystemE51"></div></td>
-                        <!-- FIXME IMHO MUST BE LFINF MATERIAL ARGUMENT INSIDE ():  -->
-                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">LLRS (additional) - Infill material:</span><br>
-                          <select id="SystemCB61" style="width: 275px;"></select></div></td>
+                        <td colspan=2><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density (0.0-1.0):</span><br>
+                            <input type="text" id="SystemE51"></div></td>
                     </tr></table>
+                    
+                    
+                    <div class="data-group" id="SystemHybridLFINF1" style="display: none;">
+                      <h4 data-gem-help="{{ taxonomy_base }}FIXME">LLRS Infill material</h4>
+                      <table class="dir_spec"><tr>
+                          <!-- FIXME IMHO MUST BE LFINF MATERIAL ARGUMENT INSIDE ():  -->
+                          <td><div>
+                              <select id="SystemCB61" style="width: 275px;"></select></div></td>
+                      </tr></table>
+                    </div>
+                    <div class="data-group" id="SystemHybridLH1" style="display: none;">
+                      <h4 data-gem-help="{{ taxonomy_base }}FIXME">Hybrid LLRS systems</h4>
+                      <table class="dir_spec"><tr>
+                          <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">System A (primary):</span><br>
+                              <select id="SystemCB1A1"></select></div></td>
+                          <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">System B:</span><br>
+                              <select id="SystemCB1B1"></select></div></td>
+                      </tr></table>
+                    </div>
                 </div>
-
             </div>
             <div id="sub1_content-2" style="display: none; width: 798px; background-color: #f0f0f0; border-width: 1px 1px 0px 1px; border-style: solid; border-color: #f0f0f0 #f0f0f0 #1b75a7 #f0f0f0;">
 
@@ -84,6 +112,17 @@
                     </tr></table>
                 </div>
 
+
+
+
+
+
+
+
+
+
+
+                
                 <div class="data-group">
                     <h4 data-gem-help="{{ taxonomy_base }}material-of-the-lateral-load-resisting-system">Material of lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
@@ -98,7 +137,7 @@
                                  <select  id="MaterialCB42"></select></div></td>
                     </tr></table>
 
-                    <div class="data-group" id="MaterialHybrid2" style="display: none;">
+                    <div class="data-group" id="MaterialHybridHYB2" style="display: none;">
                       <h4 data-gem-help="{{ taxonomy_base }}material-of-the-lateral-load-resisting-system">Hybrid Material (material A, material B),
  two main materials of the LLRS</h4>
                       <table class="dir_spec"><tr>
@@ -111,6 +150,13 @@
 
                 </div>
 
+
+
+
+
+
+
+                
                 <div class="data-group">
                     <h4 data-gem-help="{{ taxonomy_base }}lateral-load-resisting-system">Lateral load-resisting system</h4>
                     <table class="dir_spec"><tr>
@@ -121,18 +167,33 @@
                       </tr>
                       <tr>
                         <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">System code level:</span><br>
-                          <select id="SystemCB32"></select></div></td>
+                            <select id="SystemCB32"></select></div></td>
                         <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Lateral load coefficient (% 0-100.0):</span><br>
-                            <div style="white-space:nowrap;"><input type="text" id="SystemE42"></div>
+                            <input type="text" id="SystemE42"></div>
                         </td>
                       </tr>
                       <tr>
-                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density (0.0-1.0):</span><br>
-                            <div style="white-space:nowrap;"><input type="text" id="SystemE52"></div></td>
-                        <!-- FIXME IMHO MUST BE LFINF MATERIAL ARGUMENT INSIDE ():  -->
-                        <td><div><span data-gem-help="{{ taxonomy_base }}FIXME">LLRS (additional) - Infill material:</span><br>
-                          <select id="SystemCB62" style="width: 275px;"></select></div></td>
+                        <td colspan="2"><div><span data-gem-help="{{ taxonomy_base }}FIXME">Columns-Wall density (0.0-1.0):</span><br>
+                            <input type="text" id="SystemE52"></div></td>
                     </tr></table>
+                    
+                    <div class="data-group" id="SystemHybridLFINF2" style="display: none;">
+                      <h4 data-gem-help="{{ taxonomy_base }}FIXME">LLRS Infill material</h4>
+                      <table class="dir_spec"><tr>
+                          <!-- FIXME IMHO MUST BE LFINF MATERIAL ARGUMENT INSIDE ():  -->
+                          <td><div>
+                              <select id="SystemCB62" style="width: 275px;"></select></div></td>
+                      </tr></table>
+                    </div>
+                    <div class="data-group" id="SystemHybridLH2" style="display: none;">
+                      <h4 data-gem-help="{{ taxonomy_base }}FIXME">Hybrid LLRS systems</h4>
+                      <table class="dir_spec"><tr>
+                          <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">System A (primary):</span><br>
+                              <select id="SystemCB1A2"></select></div></td>
+                          <td><div><span data-gem-help="{{ taxonomy_base }}type-of-lateral-load-resisting-system">System B:</span><br>
+                              <select id="SystemCB1B2"></select></div></td>
+                      </tr></table>
+                    </div>
                 </div>
             </div>
         </div>
