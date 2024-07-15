@@ -22,6 +22,7 @@ function taxonomy_attrargs(attr)
 
 function taxonomy_short2full(t_short)
 {
+    console.log('short2full in  [' + t_short + ']');
     var tfull = ['', '', '', '', '', '', // Structural System
                  'H99', 'Y99', 'OC99',   // Building Information
                  'BP99', 'PLF99', 'IR99', 'EW99', // Exterior Attributes
@@ -34,6 +35,7 @@ function taxonomy_short2full(t_short)
     var t_arr = t_short.split('/');
     var is_first_material = is_first_llrs = true;
 
+    console.log('short2full in2 [' + t_short + ']');
     for (var i = 0 ; i < t_arr.length ; i++) {
         var t_el = t_arr[i];
         var t_subattrs = taxonomy_splitattr(t_el);
@@ -72,12 +74,12 @@ function taxonomy_short2full(t_short)
                 for (var e = 0 ; e < args.length ; e++) {
                     var arg = args[e];
                     if (!(arg in mat_hyb['val'])) {
-                        return ({ result: null, err_s: "Unknown hybrid material component '" + arg + "'" });
+                        return ({ result: null, err_s: "Unknown material argument '" + arg + "'" });
                     }
                 }
             }
 
-            var el_lone = el_loneone = el_ltwo = '';
+            var el_lone = el_loneone = el_ltwo = el_lthree = '';
             for (var e = 1 ; e < t_subattrs.length ; e++) {
                 var t_subattr = t_subattrs[e][0];
                 var t_subattr_name = taxonomy_attrname(t_subattr);
@@ -86,26 +88,28 @@ function taxonomy_short2full(t_short)
                 console.log('t_subattr_name: ' + t_subattr_name);
 
                 if (t_sub_first_name in gem_tax['mat_grps']) {
-                    // special case for HYBrid material
+                    var grp = gem_tax['mat_grps'][t_sub_first_name];
+
                     if (grp in gem_tax['mat_lone']) {
                         if (t_subattr_name in gem_tax['mat_lone'][grp]) {
-                            el_lone = gem_tax_subsep + t_subbattr;
+                            el_lone = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
                     if (grp in gem_tax['mat_loneone']) {
                         if (t_subattr_name in gem_tax['mat_loneone'][grp]) {
-                            el_loneone = gem_tax_subsep + t_subbattr;
+                            el_loneone = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
                     if (t_sub_first_name in gem_tax['mat_ltwo']) {
                         if (t_subattr_name in gem_tax['mat_ltwo'][t_sub_first_name]) {
-                            el_ltwo = gem_tax_subsep + t_subbattr;
+                            el_ltwo = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
                 }
+                return ({ result: null, err_s: "Unknown material attribute '" + arg + "'" });
             }
 
             tfull[tid_ymat] = t_sub_first + el_lone + el_loneone + el_ltwo;
@@ -116,32 +120,23 @@ function taxonomy_short2full(t_short)
             continue;
         }
         else if (t_sub_first_name in gem_tax['llrs']) {
-
-
-
-
-
-
-
-            if (t_sub_first_name in gem_tax['mat_grps']) {
-                var grp = gem_tax['mat_grps'][t_sub_first_name];
-                if (grp == 'hybrid') {
-                    var args = taxonomy_attrargs(t_sub_first);
-                    if (args.length == 2) {
-                        for (var e = 0 ; e < args.length ; e++) {
-                            var arg = args[e];
-                            if (!(arg in gem_tax['mat_hyb'])) {
-                                return ({ result: null, err_s: "Unknown hybrid material component '" + arg + "'" });
-                            }
-                        }
+            if (t_sub_first_name in gem_tax['llrs_hyb_grps']) {
+                var llrs_hyb = gem_tax['llrs_hyb'][gem_tax['llrs_hyb_grps'][t_sub_first_name]];
+                var args = taxonomy_attrargs(t_sub_first);
+                if (!('--' in llrs_hyb['val'])) {
+                    if (args.length != llrs_hyb['sfxs'].length) {
+                        return ({ result: null, err_s: "Wrong number of arguments (must be " + llrs_hyb['sfxs'].length + ")" });
                     }
-                    else {
-                        return ({ result: null, err_s: "Insufficient number of hybrid material components (must be two)" });
+                }
+                for (var e = 0 ; e < args.length ; e++) {
+                    var arg = args[e];
+                    if (!(arg in llrs_hyb['val'])) {
+                        return ({ result: null, err_s: "Unknown llrs argument '" + arg + "'" });
                     }
                 }
             }
 
-            var el_lone = el_loneone = el_two = '';
+            var el_lone = el_loneone = el_ltwo = el_lthree = '';
             for (var e = 1 ; e < t_subattrs.length ; e++) {
                 var t_subattr = t_subattrs[e][0];
                 var t_subattr_name = taxonomy_attrname(t_subattr);
@@ -149,55 +144,49 @@ function taxonomy_short2full(t_short)
                 console.log('t_subattr: ' + t_subattr);
                 console.log('t_subattr_name: ' + t_subattr_name);
 
-                if (t_sub_first_name in gem_tax['mat_grps']) {
-                    // special case for HYBrid material
-                    if (grp in gem_tax['mat_lone']) {
-                        if (t_subattr_name in gem_tax['mat_lone'][grp]) {
-                            el_lone = gem_tax_subsep + t_subbattr;
+                if (t_sub_first_name in gem_tax['llrs_grps']) {
+                    if (grp in gem_tax['llrs_lone']) {
+                        if (t_subattr_name in gem_tax['llrs_lone'][grp]) {
+                            el_lone = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
-                    if (grp in gem_tax['mat_loneone']) {
-                        if (t_subattr_name in gem_tax['mat_loneone'][grp]) {
-                            el_loneone = gem_tax_subsep + t_subbattr;
+                    if (grp in gem_tax['llrs_loneone']) {
+                        if (t_subattr_name in gem_tax['llrs_loneone'][grp]) {
+                            el_loneone = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
-                    if (t_sub_first_name in gem_tax['mat_ltwo']) {
-                        if (t_subattr_name in gem_tax['mat_ltwo'][t_sub_first_name]) {
-                            el_ltwo = gem_tax_subsep + t_subbattr;
+                    if (t_sub_first_name in gem_tax['llrs_ltwo']) {
+                        if (t_subattr_name in gem_tax['llrs_ltwo'][t_sub_first_name]) {
+                            el_ltwo = gem_tax_subsep + t_subattr;
+                            continue;
+                        }
+                    }
+                    if (t_sub_first_name in gem_tax['llrs_lthree']) {
+                        if (t_subattr_name in gem_tax['llrs_lthree'][t_sub_first_name]) {
+                            el_lthree = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
                 }
+                return ({ result: null, err_s: "Unknown LLRS attribute '" + arg + "'" });
             }
 
-            tfull[tid_ymat] = t_sub_first + el_lone + el_loneone + el_ltwo;
-            if (is_first_material) {
-                tfull[tid_xmat] = tfull[tid_ymat];
-            }
-            continue;
-
-
-
-
-
-
-
-            console.log('HERE LLRS');
+            tfull[tid_yllrs] = t_sub_first + el_lone + el_loneone + el_ltwo + el_lthree;
             if (is_first_llrs) {
-                tfull[tid_xllrs] = t_el;
-                tfull[tid_yllrs] = t_el;
+                tfull[tid_xllrs] = tfull[tid_yllrs];
             }
-            else {
-                tfull[tid_yllrs] = t_el;
-            }
+            is_first_material = false;
+            is_first_llrs = false;
+            console.log('HERE LLRS');
+            continue;
         }
     }
     // for (var e = 0 ; e < t_subattrs.length ; e++) {
 
     console.log(t_short);
-    console.log('taxonomy_short2full: ' + tfull.join('/'));
+    console.log('short2full out [' + tfull.join('/') + ']');
     return ({result: tfull.join('/'), err_s: null});
 }
 

@@ -275,70 +275,96 @@ function select_populate_dict(id, items)
 
 function taxt_ValidateSystem(tab_id) // Ok
 {
-    var sys_cb1 = 'SystemCB1' + tab_id;
-    var sys_cb2 = 'SystemCB2' + tab_id; // duct
-    var sys_cb3 = 'SystemCB3' + tab_id; // code level
-    var sys_e4 =  'SystemE4'  + tab_id; // LL coeff
-    var sys_e5 =  'SystemE5'  + tab_id; // Column-wall density
-    var sys_cb6 = 'SystemCB6' + tab_id; // LLRS additional
-    var sys_cb7a = 'SystemCB7A' + tab_id; // LLRS component A
-    var sys_cb7b = 'SystemCB7B' + tab_id; // LLRS component B
+    var llrs_cb1 = 'SystemCB1' + tab_id;
+    var llrs_cb2 = 'SystemCB2' + tab_id; // duct
+    var llrs_cb3 = 'SystemCB3' + tab_id; // code level
+    var llrs_e4 =  'SystemE4'  + tab_id; // LL coeff
+    var llrs_e5 =  'SystemE5'  + tab_id; // Column-wall density
 
-    var key_cur = gem$('#' + sys_cb1).val();
+    var key_cur = gem$('#' + llrs_cb1).val();
 
-
-    if (key_cur == '--' || key_cur == 'LN') {
-        gem$('#' + sys_cb2).empty();
-        gem$('#' + sys_cb3).empty();
-        gem$('#' + sys_e4).val('');
-        gem$('#' + sys_e5).val('');
-        gem$('#' + sys_cb6).empty();
-        gem$('#' + sys_cb7a).empty();
-        gem$('#' + sys_cb7b).empty();
-
-        gem$('#' + sys_cb2).prop("disabled", true);
-        gem$('#' + sys_cb3).prop("disabled", true);
-        gem$('#' + sys_e4).prop("disabled", true);
-        gem$('#' + sys_e5).prop("disabled", true);
-        gem$('#' + sys_cb6).prop("disabled", true);
-        gem$('#' + sys_cb7a).prop("disabled", true);
-        gem$('#' + sys_cb7b).prop("disabled", true);
+    /* hide all hybrid subdiv */
+    for (var key in gem_tax['llrs_hyb']) {
+        if (gem_tax['llrs_hyb'].hasOwnProperty(key)) {
+            var llrs_hyb = gem_tax['llrs_hyb'][key];
+            gem$('#SystemHybrid' + key + tab_id).css('display', 'none');
+        }
     }
-    else {
-        if (gem$('#' + sys_cb2).prop("disabled")) {
-            gem$('#' + sys_cb2).prop("disabled", false);
-            select_populate_dict(sys_cb2, gem_tax['llrs_ltwo']);
+
+    if (key_cur in gem_tax['llrs_hyb_grps']) {
+        var llrs_hyb_grp = gem_tax['llrs_hyb_grps'][key_cur];
+        var llrs_hyb = gem_tax['llrs_hyb'][llrs_hyb_grp];
+
+        for (var hyb_cur = 0 ; hyb_cur < llrs_hyb['sfxs'].length ; hyb_cur++) {
+            var hyb_tagid = 'SystemCB' + llrs_hyb['sfxs'][hyb_cur] + tab_id;
+
+            select_populate_dict(hyb_tagid, llrs_hyb['val']);
         }
-        if (gem$('#' + sys_cb3).prop("disabled")) {
-            gem$('#' + sys_cb3).prop("disabled", false);
-            select_populate_dict(sys_cb3, gem_tax['llrs_lone']);
-        }
-        if (gem$('#' + sys_e4).prop("disabled")) {
-            gem$('#' + sys_e4).prop("disabled", false);
-        }
-        if (gem$('#' + sys_e5).prop("disabled")) {
-            gem$('#' + sys_e5).prop("disabled", false);
-        }
-        if (key_cur == 'LFINF') {
-            if (gem$('#'+  sys_cb6).prop("disabled")) {
-                // select_populate_dict(sys_cb6, gem_tax['llrs_lfour']);
-                gem$('#'+  sys_cb6).prop("disabled", false);
-            }
+
+        gem$('#SystemHybrid' + llrs_hyb_grp + tab_id).css('display', '');
+        if (llrs_hyb_grp == 'LH') {
+            gem$('#' + llrs_cb2).prop("disabled", true);
+            gem$('#' + llrs_cb3).prop("disabled", true);
+            gem$('#' + llrs_e4).prop("disabled", true);
+            gem$('#' + llrs_e5).prop("disabled", true);
         }
         else {
-            gem$('#' + sys_cb6).empty();
-            gem$('#' + sys_cb6).prop("disabled", true);
+            if (gem$('#' + llrs_cb2).prop("disabled")) {
+                gem$('#' + llrs_cb2).prop("disabled", false);
+                select_populate_dict(llrs_cb2, gem_tax['llrs_ltwo']);
+            }
+            if (gem$('#' + llrs_cb3).prop("disabled")) {
+                gem$('#' + llrs_cb3).prop("disabled", false);
+                select_populate_dict(llrs_cb3, gem_tax['llrs_lone']);
+            }
+            if (gem$('#' + llrs_e4).prop("disabled")) {
+                gem$('#' + llrs_e4).prop("disabled", false);
+            }
+            if (gem$('#' + llrs_e5).prop("disabled")) {
+                gem$('#' + llrs_e5).prop("disabled", false);
+            }
+        }
+    }
+    else {
+        /* turn off all hybrid subdiv */
+        for (var key in gem_tax['llrs_hyb']) {
+            if (gem_tax['llrs_hyb'].hasOwnProperty(key)) {
+                var llrs_hyb = gem_tax['llrs_hyb'][key];
+                gem$('#SystemHybrid' + key + tab_id).css('display', 'none');
+
+                for (var hyb_cur = 0 ; hyb_cur < llrs_hyb['sfxs'].legth ; hyb_cur++) {
+                    var hyb_tagid = 'SystemCB' + llrs_hyb['sfxs'][hyb_cur] + tab_id;
+                    gem$('#' + hyb_tagid).empty();
+                }
+            }
         }
 
-        if (0 == 1) {
+        if (key_cur == '--' || key_cur == 'LN') {
+            gem$('#' + llrs_cb2).empty();
+            gem$('#' + llrs_cb3).empty();
+            gem$('#' + llrs_e4).val('');
+            gem$('#' + llrs_e5).val('');
 
-            var SystemCB21 = [];
-            /* DU99  */ SystemCB21.push({'_text': 'Ductility unknown', 'dataGemHelp': gem_taxonomy_base + 'ductility-unknown-du99' });
-            /* DUC   */ SystemCB21.push({'_text': 'Ductile', 'dataGemHelp': gem_taxonomy_base + 'ductile-duc' });
-            /* DNO   */ SystemCB21.push({'_text': 'Non-ductile', 'dataGemHelp': gem_taxonomy_base + 'non-ductile-dno' });
-            /* DBD   */ SystemCB21.push({'_text': 'Base isolation and/or energy dissipation devices', 'dataGemHelp': gem_taxonomy_base + 'equipped-with-base-isolation-and-or-energy-dissipation-devices-dbd' });
-            select_populate('SystemCB21', SystemCB21);
-            gem$('#SystemCB21').prop("disabled", false);
+            gem$('#' + llrs_cb2).prop("disabled", true);
+            gem$('#' + llrs_cb3).prop("disabled", true);
+            gem$('#' + llrs_e4).prop("disabled", true);
+            gem$('#' + llrs_e5).prop("disabled", true);
+        }
+        else {
+            if (gem$('#' + llrs_cb2).prop("disabled")) {
+                gem$('#' + llrs_cb2).prop("disabled", false);
+                select_populate_dict(llrs_cb2, gem_tax['llrs_ltwo']);
+            }
+            if (gem$('#' + llrs_cb3).prop("disabled")) {
+                gem$('#' + llrs_cb3).prop("disabled", false);
+                select_populate_dict(llrs_cb3, gem_tax['llrs_lone']);
+            }
+            if (gem$('#' + llrs_e4).prop("disabled")) {
+                gem$('#' + llrs_e4).prop("disabled", false);
+            }
+            if (gem$('#' + llrs_e5).prop("disabled")) {
+                gem$('#' + llrs_e5).prop("disabled", false);
+            }
         }
     }
 }
@@ -351,43 +377,6 @@ function taxt_ValidateSystem1() // Ok
 function taxt_ValidateSystem2() // Ok
 {
     return taxt_ValidateSystem('2');
-}
-
-
-function taxt_ValidateSystem1_old() // Ok
-{
-    gem$('#SystemCB21').empty();
-
-    if (gem$('#SystemCB11').val() == 0 || gem$('#SystemCB11').val() == 1) {
-        gem$('#SystemCB21').prop("disabled", true);
-    }
-    else {
-        var SystemCB21 = [];
-        /* DU99  */ SystemCB21.push({'_text': 'Ductility unknown', 'dataGemHelp': gem_taxonomy_base + 'ductility-unknown-du99' });
-        /* DUC   */ SystemCB21.push({'_text': 'Ductile', 'dataGemHelp': gem_taxonomy_base + 'ductile-duc' });
-        /* DNO   */ SystemCB21.push({'_text': 'Non-ductile', 'dataGemHelp': gem_taxonomy_base + 'non-ductile-dno' });
-        /* DBD   */ SystemCB21.push({'_text': 'Base isolation and/or energy dissipation devices', 'dataGemHelp': gem_taxonomy_base + 'equipped-with-base-isolation-and-or-energy-dissipation-devices-dbd' });
-        select_populate('SystemCB21', SystemCB21);
-        gem$('#SystemCB21').prop("disabled", false);
-    }
-}
-
-function taxt_ValidateSystem2_old() // Ok
-{
-    gem$('#SystemCB22').empty();
-
-    if (gem$('#SystemCB12').val() == 0 || gem$('#SystemCB12').val() == 1) {
-        gem$('#SystemCB22').prop("disabled", true);
-    }
-    else {
-        var SystemCB22 = [];
-        /* same */ SystemCB22.push({'_text': 'Ductility unknown', 'dataGemHelp': gem_taxonomy_base + 'ductility-unknown-du99' });
-        /* same */ SystemCB22.push({'_text': 'Ductile', 'dataGemHelp': gem_taxonomy_base + 'ductile-duc' });
-        /* same */ SystemCB22.push({'_text': 'Non-ductile', 'dataGemHelp': gem_taxonomy_base + 'non-ductile-dno' });
-        /* same */ SystemCB22.push({'_text': 'Base isolation and/or energy dissipation devices', 'dataGemHelp': gem_taxonomy_base + 'equipped-with-base-isolation-and-or-energy-dissipation-devices-dbd' });
-        select_populate('SystemCB22', SystemCB22);
-        gem$('#SystemCB22').prop("disabled", false);
-    }
 }
 
 function taxt_ValidateMaterial1() // Ok
@@ -406,14 +395,21 @@ function taxt_ValidateMaterial(tab_id) // Ok
     var mat_cb2 = 'MaterialCB2' + tab_id;
     var mat_cb3 = 'MaterialCB3' + tab_id;
     var mat_cb4 = 'MaterialCB4' + tab_id;
-    // var sys_cb1 = 'SystemCB1' + tab_id;
 
     gem$('#' + mat_cb2).empty();
     gem$('#' + mat_cb3).empty();
     gem$('#' + mat_cb4).empty();
-    // gem$('#' + sys_cb1).empty();
 
     var key_cur = gem$('#' + mat_cb1).val();
+
+    /* hide all hybrid subdiv */
+    for (var key in gem_tax['mat_hyb']) {
+        if (gem_tax['mat_hyb'].hasOwnProperty(key)) {
+            var mat_hyb = gem_tax['mat_hyb'][key];
+            gem$('#MaterialHybrid' + key + tab_id).css('display', 'none');
+        }
+    }
+
     if (key_cur in gem_tax['mat_grps']) {
         var mat_grp = gem_tax['mat_grps'][key_cur];
 
@@ -431,7 +427,7 @@ function taxt_ValidateMaterial(tab_id) // Ok
             gem$('#' + mat_cb2).prop("disabled", true);
             gem$('#' + mat_cb3).prop("disabled", true);
 
-        }   
+        }
         else {
             /* turn off all hybrid subdiv */
             for (var key in gem_tax['mat_hyb']) {
@@ -475,10 +471,7 @@ function taxt_ValidateMaterial(tab_id) // Ok
         gem$('#' + mat_cb4).prop("disabled", true);
     }
 
-    if (tab_id == 1)
-        taxt_ValidateSystem1();
-    else if (tab_id == '2')
-        taxt_ValidateSystem2();
+    taxt_ValidateSystem(tab_id);
 
     return;
 
@@ -1321,8 +1314,8 @@ function taxt_BreakDirection2(obj) // Ok
             gem$('#SystemCB22').val() != gem$('#SystemCB21').val() ||
             gem$('#SystemCB32').val() != gem$('#SystemCB31').val() ||
             gem$('#SystemE42').val() != gem$('#SystemE41').val() ||
-            gem$('#SystemE52').val() != gem$('#SystemE51').val()
-            // || gem$('#SystemCB62').val() != gem$('#SystemCB61').val()
+            gem$('#SystemE52').val() != gem$('#SystemE51').val() ||
+            gem$('#SystemCB62').val() != gem$('#SystemCB61').val()
            ) {
             gem$('#DirectionCB').prop('checked', false);
         }
@@ -1335,12 +1328,10 @@ function taxt_SetDirection2(obj) // Ok
         // FIXME: for hybrid types an external loop is required
         gem$('#MaterialCB12').val(gem$('#MaterialCB11').val());
         taxt_MaterialCB12Select();
-        if (gem$('#MaterialCB11').val() == 'HYB') {
-            gem$('#MaterialCB1A2').val(gem$('#MaterialCB1A1').val());
-            taxt_MaterialCB1A2Select();
-            gem$('#MaterialCB1B2').val(gem$('#MaterialCB1B1').val());
-            taxt_MaterialCB1B2Select();
-        }
+        gem$('#MaterialCB1A2').val(gem$('#MaterialCB1A1').val());
+        taxt_MaterialCB1A2Select();
+        gem$('#MaterialCB1B2').val(gem$('#MaterialCB1B1').val());
+        taxt_MaterialCB1B2Select();
 
         gem$('#MaterialCB22').val(gem$('#MaterialCB21').val());
         taxt_MaterialCB22Select();
@@ -1358,8 +1349,12 @@ function taxt_SetDirection2(obj) // Ok
         taxt_SystemE42Select();
         gem$('#SystemE52').val(gem$('#SystemE51').val());
         taxt_SystemE52Select();
-        // gem$('#SystemCB62').val(gem$('#SystemCB61').val());
+        gem$('#SystemCB62').val(gem$('#SystemCB61').val());
         taxt_SystemCB62Select();
+        gem$('#SystemCB1A2').val(gem$('#SystemCB1A1').val());
+        taxt_SystemCB1A2Select();
+        gem$('#SystemCB1B2').val(gem$('#SystemCB1B1').val());
+        taxt_SystemCB1B2Select();
     }
 }
 
@@ -1552,6 +1547,32 @@ function taxt_SystemCB62Select(obj) // Ok
     end;
     */
 }
+
+function taxt_SystemCB1A1Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB1B1Select(obj) // Ok
+{
+    taxt_SetDirection2();
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB1A2Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+function taxt_SystemCB1B2Select(obj) // Ok
+{
+    taxt_BreakDirection2(obj);
+    taxt_BuildTaxonomy();
+}
+
+
 
 function taxt_HeightCB1Select(obj) // Ok
 {
@@ -1748,6 +1769,8 @@ function taxt_Direction2RB3Click(obj) // Ok
 
 function BuildTaxonomyString(out_type)
 {
+    console.log('BuildTaxonomyString in :' + out_type);
+
     var Taxonomy = [], ResTax, direction1, direction2;
     for (var i = 0 ; i < 50 ; i++)
         Taxonomy[i] = "";
@@ -1758,11 +1781,16 @@ function BuildTaxonomyString(out_type)
 
     // MATERIAL X
     t_mat_typ = gem$('#MaterialCB11').val();
+    console.log('t_mat_typ: [' + t_mat_typ + ']');
     if (t_mat_typ != '--') {
-        if (t_mat_typ == 'HYB') {
-            t_mat_hyb_a = gem$('#MaterialCB1A1').val();
-            t_mat_hyb_b = gem$('#MaterialCB1B1').val();
-            Taxonomy[0] = t_mat_typ + '(' + t_mat_hyb_a + ',' + t_mat_hyb_b + ')';
+        if (t_mat_typ in gem_tax['mat_hyb_grps']) {
+            var mat_hyb = gem_tax['mat_hyb'][gem_tax['mat_hyb_grps'][t_mat_typ]];
+
+            var args = [];
+            for (var hyb_id = 0 ; hyb_id < mat_hyb['sfxs'].length ; hyb_id++) {
+                args.push(gem$('#MaterialCB' + mat_hyb['sfxs'][hyb_id] + '1').val());
+            }
+            Taxonomy[0] = t_mat_typ + '(' + args.join(',') + ')';
         }
         else {
             Taxonomy[0] = t_mat_typ;
@@ -1791,15 +1819,30 @@ function BuildTaxonomyString(out_type)
 
     // LLRS X
     t_llrs_typ = gem$('#SystemCB11').val();
-    if (t_llrs_typ != null && t_llrs_typ != '--') {
-        Taxonomy[3] = t_llrs_typ;
+    console.log('t_llrs_typ: [' + t_llrs_typ + ']');
+    if (t_llrs_typ != '--') {
+        if (t_llrs_typ in gem_tax['llrs_hyb_grps']) {
+            var llrs_hyb = gem_tax['llrs_hyb'][gem_tax['llrs_hyb_grps'][t_llrs_typ]];
 
-        t_llrs_add = gem$('#SystemCB61').val();
-        if (t_llrs_add != null && t_llrs_add != '--')
-            Taxonomy[3] += '(' + t_llrs_add + ')';
+            var args = [];
+            for (var hyb_id = 0 ; hyb_id < llrs_hyb['sfxs'].length ; hyb_id++) {
+                var arg_val = gem$('#SystemCB' + llrs_hyb['sfxs'][hyb_id] + '1').val();
+                if (arg_val != '--' && arg_val != '') {
+                    args.push(gem$('#SystemCB' + llrs_hyb['sfxs'][hyb_id] + '1').val());
+                }
+            }
+            if (args.length > 0)
+                Taxonomy[3] = t_llrs_typ + '(' + args.join(',') + ')';
+            else
+                Taxonomy[3] = t_llrs_typ;
+        }
+        else {
+            Taxonomy[3] = t_llrs_typ;
+        }
     }
-    else
-        Taxonomy[3] = '';
+    else if(out_type == 0)
+        Taxonomy[3] = 'SYS99';
+
 
     t_llrs_duc = gem$('#SystemCB21').val();
     if (t_llrs_duc != null && t_llrs_duc != '--')
@@ -1826,8 +1869,6 @@ function BuildTaxonomyString(out_type)
         Taxonomy[38] = '';
 
 
-
-
     /*
 
         '/' + Taxonomy[3] + Taxonomy[4] + Taxonomy[36] + Taxonomy[37] + + Taxonomy[38] + Taxonomy[39] + 
@@ -1839,10 +1880,14 @@ function BuildTaxonomyString(out_type)
     // MATERIAL Y
     t_mat_typ = gem$('#MaterialCB12').val();
     if (t_mat_typ != '--') {
-        if (t_mat_typ == 'HYB') {
-            t_mat_hyb_a = gem$('#MaterialCB1A2').val();
-            t_mat_hyb_b = gem$('#MaterialCB1B2').val();
-            Taxonomy[5] = t_mat_typ + '(' + t_mat_hyb_a + ',' + t_mat_hyb_b + ')';
+        if (t_mat_typ in gem_tax['mat_hyb_grps']) {
+            var mat_hyb = gem_tax['mat_hyb'][gem_tax['mat_hyb_grps'][t_mat_typ]];
+
+            var args = [];
+            for (var hyb_id = 0 ; hyb_id < mat_hyb['sfxs'].length ; hyb_id++) {
+                args.push(gem$('#MaterialCB' + mat_hyb['sfxs'][hyb_id] + '2').val());
+            }
+            Taxonomy[5] = t_mat_typ + '(' + args.join(',') + ')';
         }
         else {
             Taxonomy[5] = t_mat_typ;
@@ -1869,17 +1914,30 @@ function BuildTaxonomyString(out_type)
     else
         Taxonomy[35] = '';
 
-    // LLRS Y
+    // LLRS X
     t_llrs_typ = gem$('#SystemCB12').val();
-    if (t_llrs_typ != null && t_llrs_typ != '--') {
-        Taxonomy[8] = t_llrs_typ;
+    if (t_llrs_typ != '--') {
+        if (t_llrs_typ in gem_tax['llrs_hyb_grps']) {
+            var llrs_hyb = gem_tax['llrs_hyb'][gem_tax['llrs_hyb_grps'][t_llrs_typ]];
 
-        t_llrs_add = gem$('#SystemCB62').val();
-        if (t_llrs_add != null && t_llrs_add != '--')
-            Taxonomy[8] += '(' + t_llrs_add + ')';
+            var args = [];
+            for (var hyb_id = 0 ; hyb_id < llrs_hyb['sfxs'].length ; hyb_id++) {
+                var arg_val = gem$('#SystemCB' + llrs_hyb['sfxs'][hyb_id] + '2').val();
+                if (arg_val != '--' && arg_val != '') {
+                    args.push(gem$('#SystemCB' + llrs_hyb['sfxs'][hyb_id] + '2').val());
+                }
+            }
+            if (args.length > 0)
+                Taxonomy[8] = t_llrs_typ + '(' + args.join(',') + ')';
+            else
+                Taxonomy[8] = t_llrs_typ;
+        }
+        else {
+            Taxonomy[8] = t_llrs_typ;
+        }
     }
-    else
-        Taxonomy[8] = '';
+    else if(out_type == 0)
+        Taxonomy[8] = 'SYS99';
 
 
     t_llrs_duc = gem$('#SystemCB22').val();
@@ -1887,7 +1945,6 @@ function BuildTaxonomyString(out_type)
         Taxonomy[9] = gem_tax_subsep + t_llrs_duc;
     else
         Taxonomy[9] = '';
-
 
     t_llrs_clv = gem$('#SystemCB32').val();
     if (t_llrs_clv != null && t_llrs_clv != '--')
@@ -1906,6 +1963,11 @@ function BuildTaxonomyString(out_type)
         Taxonomy[42] = '-DCW:' + t_llrs_cwd;
     else
         Taxonomy[42] = '';
+
+
+    for (var iii = 0 ; iii < Taxonomy.length ; iii++) {
+        console.log(Taxonomy[iii]);
+    }
 
 
 if (1 == 0) { // FIXME: remove when finished
@@ -3007,11 +3069,14 @@ if (1 == 0) { // FIXME: remove when finished
         '/' + Taxonomy[19] + Taxonomy[20] + Taxonomy[22] + Taxonomy[21] + Taxonomy[23] +
         '/' + Taxonomy[24] + '/' + Taxonomy[25] + Taxonomy[26] + Taxonomy[27] + Taxonomy[28] + Taxonomy[29] +
         '/' + Taxonomy[30] + Taxonomy[31] + Taxonomy[32] + '/' + Taxonomy[33];
+    console.log('BuildTaxonomyString ou: [' + ResTax + ']');
     if (out_type == 2) {
         // FIXME: pay attention with HYBRID ATOMS if .split is enough
         var is_first = true, ResAtoms = ResTax.split('/');
         if (ResAtoms[1] == ResAtoms[4] && ResAtoms[2] == ResAtoms[5]) {
             // same params case
+            gem$('#DirectionCB').prop('checked', true);
+
             ResAtoms[3] = ResAtoms[4] = ResAtoms[5] = "";
             if (gem$('#Direction1RB1').prop('checked')) {
                 ResAtoms[0] = ""; // MN proposal 'DX'
@@ -3022,6 +3087,7 @@ if (1 == 0) { // FIXME: remove when finished
             }
         }
         else {
+            gem$('#DirectionCB').prop('checked', false);
             if (gem$('#Direction1RB1').prop('checked')) {
                 ResAtoms[0] = ""; // MN proposal 'DX'
                 ResAtoms[3] = ""; // MN proposal 'DY'
@@ -3326,7 +3392,9 @@ function resultE_mgmt(event)
     }
 
     do {
+        console.log('resultE_mgmt, pre  s2f: [' + taxonomy + ']');
         ret = taxonomy_short2full(taxonomy);
+        console.log('resultE_mgmt, post s2f: [' + ret.result + ']');
 
         if (ret) {
             if (ret.err_s) {
@@ -4076,6 +4144,7 @@ function taxt_OutTypeCBSelect(obj)
 }
 
 function taxt_Initiate(full) {
+    console.log('taxt_Initiate');
     if (full) {
         var OutTypeCB = [];
         OutTypeCB.push('Full');
@@ -4090,12 +4159,12 @@ function taxt_Initiate(full) {
     gem$('#DirectionCB').on('change', taxt_SetDirection2);
 
     select_populate_dict('MaterialCB11', gem_tax['mat']);
-    // select_populate_dict('MaterialCB1A1', gem_tax['mat_hyb']);
-    // select_populate_dict('MaterialCB1B1', gem_tax['mat_hyb']);
+    gem$('#MaterialCB1A1').empty();
+    gem$('#MaterialCB1B1').empty();
     select_populate_dict('SystemCB11', gem_tax['llrs'], / *\([^\(]*\)$/);
     select_populate_dict('SystemCB21', gem_tax['llrs_ltwo']);
     select_populate_dict('SystemCB31', gem_tax['llrs_lone']);
-    // select_populate_dict('SystemCB61', gem_tax['llrs_lfour']);
+    gem$('#SystemCB61').empty();
 
     gem$('#MaterialCB11').on('change', taxt_MaterialCB11Select);
     gem$('#MaterialCB1A1').on('change', taxt_MaterialCB1A1Select);
@@ -4108,15 +4177,19 @@ function taxt_Initiate(full) {
     gem$('#SystemCB31').on('change', taxt_SystemCB31Select);
     gem$('#SystemE41').on('change', taxt_SystemE41Select);
     gem$('#SystemE51').on('change', taxt_SystemE51Select);
-    // gem$('#SystemCB61').on('change', taxt_SystemCB61Select);
+    gem$('#SystemCB61').on('change', taxt_SystemCB61Select);
+    gem$('#SystemCB1A1').on('change', taxt_SystemCB1A1Select);
+    gem$('#SystemCB1B1').on('change', taxt_SystemCB1B1Select);
+
+
 
     select_populate_dict('MaterialCB12', gem_tax['mat']);
-    // select_populate_dict('MaterialCB1A2', gem_tax['mat_hyb']);
-    // select_populate_dict('MaterialCB1B2', gem_tax['mat_hyb']);
+    gem$('#MaterialCB1A2').empty();
+    gem$('#MaterialCB1B2').empty();
     select_populate_dict('SystemCB12', gem_tax['llrs'], / *\([^\(]*\)$/);
     select_populate_dict('SystemCB22', gem_tax['llrs_ltwo']);
     select_populate_dict('SystemCB32', gem_tax['llrs_lone']);
-    // select_populate_dict('SystemCB62', gem_tax['llrs_lfour']);
+    gem$('#SystemCB62').empty();
 
     gem$('#MaterialCB12').on('change', taxt_MaterialCB12Select);
     gem$('#MaterialCB1A2').on('change', taxt_MaterialCB1B2Select);
@@ -4130,6 +4203,8 @@ function taxt_Initiate(full) {
     gem$('#SystemE42').on('change', taxt_SystemE42Select);
     gem$('#SystemE52').on('change', taxt_SystemE52Select);
     gem$('#SystemCB62').on('change', taxt_SystemCB62Select);
+    gem$('#SystemCB1A2').on('change', taxt_SystemCB1A2Select);
+    gem$('#SystemCB1B2').on('change', taxt_SystemCB1B2Select);
 
     if (0 == 1) { // FIXME: to be removed
 
@@ -4444,8 +4519,7 @@ function populate(s, ret_s) {
     var sar, subar, dirx, diry, el;
     var mat;
 
-    console.log('populate: [' + s + ']');
-
+    console.log('populate in: [' + s + ']');
 
     sar = s.split('/');
     gem$('#DirectionCB').prop('checked', false);
@@ -4465,6 +4539,7 @@ function populate(s, ret_s) {
     }
     else {
         ret_s.s = "Not valid 'Direction specifications' found.";
+        console.log('populate FALSE 4');
         return false;
     }
 
@@ -4486,26 +4561,40 @@ function populate(s, ret_s) {
     var llrs_selec = [ taxt_SystemCB11Select, taxt_SystemCB12Select ];
     var llrs_duct_ddown = [ '#SystemCB21', '#SystemCB22' ];
     var llrs_duct_selec = [ taxt_SystemCB21Select, taxt_SystemCB22Select ];
+    var llrs_clv_ddown = [ '#SystemCB31', '#SystemCB32' ];
+    var llrs_clv_selec = [ taxt_SystemCB21Select, taxt_SystemCB22Select ];
+    var llrs_coe_ddown = [ '#SystemE41', '#SystemE42' ];
+    var llrs_coe_selec = [ taxt_SystemE41Select, taxt_SystemE42Select ];
+    var llrs_cwd_ddown = [ '#SystemE51', '#SystemE52' ];
+    var llrs_cwd_selec = [ taxt_SystemE51Select, taxt_SystemE52Select ];
 
-    for (direct = 0 ; direct < 2 ; direct++) {
+    for (var direct = 0 ; direct < 2 ; direct++) {
+        console.log('Direct loop: ' + direct);
+        //
+        //  MAT
+        //
         var t_attr = sar[1+direct * 3];
         var t_subattrs = taxonomy_splitattr(t_attr);
-        if (t_subattrs.length == 0)
-            break;
+        if (t_subattrs.length == 0) {
+            t_subattrs = [['--']];
+        }
         var t_sub_first = t_subattrs[0][0];
         var t_sub_first_name = taxonomy_attrname(t_sub_first);
 
+        console.log('t_sub_first_name: ' + t_sub_first_name);
         if (t_sub_first_name in gem_tax['mat']) {
+            console.log('found ' + t_sub_first_name + ' in Material');
             gem$(mat_ddown[direct]).val(t_sub_first_name);
             mat_selec[direct]();
 
-            
+
             if (t_sub_first_name in gem_tax['mat_hyb_grps']) {
                 var mat_hyb = gem_tax['mat_hyb'][gem_tax['mat_hyb_grps'][t_sub_first_name]];
                 var args = taxonomy_attrargs(t_sub_first);
                 if (!('--' in mat_hyb['val'])) {
                     if (args.length != mat_hyb['sfxs'].length) {
                         ret_s.s = "Wrong number of arguments (must be " + mat_hyb['sfxs'].length + ")";
+                        console.log('populate FALSE 5');
                         return (false);
                     }
                 }
@@ -4518,12 +4607,12 @@ function populate(s, ret_s) {
                     }
                     else {
                         ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', material '" + t_sub_first_name + "', argument '" + arg + "' not identified.";
+                        console.log('populate FALSE 6');
+
                         return (false);
                     }
                 }
             }
-
-            
 
             for (var sub_id = 1 ; sub_id < t_subattrs.length ; sub_id++) {
                 var t_subattr = t_subattrs[sub_id][0];
@@ -4561,9 +4650,96 @@ function populate(s, ret_s) {
         }
         else {
             ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', material '" + t_sub_first_name + "' not identified.";
+            console.log('populate FALSE 9');
+
+            return (false);
+        }
+
+        //
+        //  LLRS
+        //
+        var t_attr = sar[2+direct * 3];
+        var t_subattrs = taxonomy_splitattr(t_attr);
+        if (t_subattrs.length == 0)
+            break;
+        var t_sub_first = t_subattrs[0][0];
+        var t_sub_first_name = taxonomy_attrname(t_sub_first);
+
+        console.log('t_sub_first_name: ' + t_sub_first_name);
+
+
+        if (t_sub_first_name in gem_tax['llrs']) {
+            console.log('found ' + t_sub_first_name + ' in LLRS');
+            gem$(llrs_ddown[direct]).val(t_sub_first_name);
+            llrs_selec[direct]();
+
+
+            if (t_sub_first_name in gem_tax['llrs_hyb_grps']) {
+                var llrs_hyb = gem_tax['llrs_hyb'][gem_tax['llrs_hyb_grps'][t_sub_first_name]];
+                var args = taxonomy_attrargs(t_sub_first);
+                if (!('--' in llrs_hyb['val'])) {
+                    if (args.length != llrs_hyb['sfxs'].length) {
+                        ret_s.s = "Wrong number of arguments (must be " + llrs_hyb['sfxs'].length + ")";
+                        return (false);
+                    }
+                }
+                for (var e = 0 ; e < args.length ; e++) {
+                    var arg = args[e];
+                    if ((arg in llrs_hyb['val'])) {
+                        gem$('#SystemCB' + llrs_hyb['sfxs'][e] + (direct + 1)).val(arg);
+                        var select_name = "taxt_SystemCB" + llrs_hyb['sfxs'][e] + (direct + 1) + "Select";
+                        window[select_name]();
+                    }
+                    else {
+                        ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', LLRS '" + t_sub_first_name + "', argument '" + arg + "' not identified.";
+                        console.log('populate FALSE 7');
+
+                        return (false);
+                    }
+                }
+            }
+
+
+
+            for (var sub_id = 1 ; sub_id < t_subattrs.length ; sub_id++) {
+                var t_subattr = t_subattrs[sub_id][0];
+                var t_subattr_name = taxonomy_attrname(t_subattr);
+
+                if (t_sub_first_name in gem_tax['llrs_lone']) {
+                    if (t_subattr_name in gem_tax['llrs_lone'][t_sub_first_name]) {
+                        gem$(llrs_duct_ddown[direct]).val(t_subattr_name);
+                        llrs_duct_selec[direct]();
+                        continue;
+                    }
+                }
+                if (t_sub_first_name in gem_tax['llrs_loneone']) {
+                    if (t_subattr_name in gem_tax['llrs_loneone'][t_sub_first_name]) {
+                        gem$(llrs_clv_ddown[direct]).val(t_subattr_name);
+                        llrs_clv_selec[direct]();
+                        continue;
+                    }
+                }
+                if (t_sub_first_name in gem_tax['llrs_ltwo']) {
+                    if (t_subattr_name in gem_tax['llrs_ltwo'][t_sub_first_name]) {
+                        gem$(llrs_cwd_ddown[direct]).val(t_subattr_name);
+                        llrs_cwd_selec[direct]();
+                        continue;
+                    }
+                }
+                ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', LLRS property '" + t_subattr_name + "' not identified.";
+            console.log('populate FALSE 8');
+                return (false);
+            }
+        }
+        else {
+            ret_s.s = "For direction '" + (direct == 0 ? "X" : "Y") + "', attribute '" + t_sub_first_name + "' not identified.";
+            console.log('populate FALSE 9');
+
             return (false);
         }
     }
+    console.log('populate out');
+
     return (true);
 
     if (false) {
@@ -5285,6 +5461,8 @@ function populate(s, ret_s) {
         ret_s.s = "Not identified '" + foun_label + "' as specification of foundation.";
         return (false);
     }
+    console.log('populate ou: [' + s + ']');
+
     return (true);
 }
 
