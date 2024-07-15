@@ -219,6 +219,9 @@
         "CDM": "Moderate code",
         "CDH": "High code"
     },
+    "llrs_loneone": {
+        "LFC": "LFC:n, n is the lateral force coefficient in percentage (%)"
+    },
     "llrs_ltwo": {
         "--": "Ductility unknown",
         "DNO": "Non-ductile",
@@ -228,8 +231,6 @@
         "DBD": "Equipped with base isolation and/or energy dissipation devices"
     },
     "llrs_lthree_grps": {
-        "--": null,
-        "LN": null,
         "LFM": "grp_l3_ena",
         "LFINF": "grp_l3_ena",
         "LFBR": "grp_l3_ena",
@@ -237,10 +238,7 @@
         "LWAL": "grp_l3_ena",
         "LDUAL": "grp_l3_ena",
         "LFLS": "grp_l3_ena",
-        "LFLSINF": "grp_l3_ena",
-        "LHV": null,
-        "LHP": null,
-        "LO": null
+        "LFLSINF": "grp_l3_ena"
     },
     "llrs_lthree": {
         "DCW": "Float specifying the density or ratio between the area of columns and/or walls and the area of the building plan.\n(DCW <= 1)"

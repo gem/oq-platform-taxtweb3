@@ -12,7 +12,12 @@ function taxonomy_splitattr(attr)
 
 function taxonomy_attrname(attr)
 {
-    return attr.replace(/\([^\)]+\)$/, '').replace(/:.*/, '');
+    return attr.replace(/\([^\)]+\)/, '').replace(/:.*/, '');
+}
+
+function taxonomy_attrparms(attr)
+{
+    return attr.replace(/\([^\)]+\)/, '').split(':').slice(1);
 }
 
 function taxonomy_attrargs(attr)
@@ -144,31 +149,31 @@ function taxonomy_short2full(t_short)
                 console.log('t_subattr: ' + t_subattr);
                 console.log('t_subattr_name: ' + t_subattr_name);
 
-                if (t_sub_first_name in gem_tax['llrs_grps']) {
-                    if (grp in gem_tax['llrs_lone']) {
-                        if (t_subattr_name in gem_tax['llrs_lone'][grp]) {
-                            el_lone = gem_tax_subsep + t_subattr;
-                            continue;
-                        }
-                    }
-                    if (grp in gem_tax['llrs_loneone']) {
-                        if (t_subattr_name in gem_tax['llrs_loneone'][grp]) {
-                            el_loneone = gem_tax_subsep + t_subattr;
-                            continue;
-                        }
-                    }
-                    if (t_sub_first_name in gem_tax['llrs_ltwo']) {
-                        if (t_subattr_name in gem_tax['llrs_ltwo'][t_sub_first_name]) {
-                            el_ltwo = gem_tax_subsep + t_subattr;
-                            continue;
-                        }
-                    }
-                    if (t_sub_first_name in gem_tax['llrs_lthree']) {
-                        if (t_subattr_name in gem_tax['llrs_lthree'][t_sub_first_name]) {
+                if (t_subattr_name in gem_tax['llrs_lone']) {
+                    el_lone = gem_tax_subsep + t_subattr;
+                    continue;
+                }
+                else if (t_subattr_name in gem_tax['llrs_loneone']) {
+                    el_loneone = gem_tax_subsep + t_subattr;
+                    continue;
+                }
+                else if (t_subattr_name in gem_tax['llrs_ltwo']) {
+                    el_ltwo = gem_tax_subsep + t_subattr;
+                    continue;
+                }
+                if (t_sub_first_name in gem_tax['llrs_lthree_grps']) {
+                    if (gem_tax['llrs_lthree_grps'][t_sub_first_name] == 'grp_l3_ena') {
+                        if (t_subattr_name in gem_tax['llrs_lthree']) {
                             el_lthree = gem_tax_subsep + t_subattr;
                             continue;
                         }
                     }
+                    else {
+                        continue;
+                    }
+                }
+                else {
+                    continue;
                 }
                 return ({ result: null, err_s: "Unknown LLRS attribute '" + arg + "'" });
             }

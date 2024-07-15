@@ -4665,7 +4665,7 @@ function populate(s, ret_s) {
         var t_sub_first = t_subattrs[0][0];
         var t_sub_first_name = taxonomy_attrname(t_sub_first);
 
-        console.log('t_sub_first_name: ' + t_sub_first_name);
+        console.log('LLRS: t_sub_first_name: ' + t_sub_first_name);
 
 
         if (t_sub_first_name in gem_tax['llrs']) {
@@ -4705,23 +4705,24 @@ function populate(s, ret_s) {
                 var t_subattr = t_subattrs[sub_id][0];
                 var t_subattr_name = taxonomy_attrname(t_subattr);
 
-                if (t_sub_first_name in gem_tax['llrs_lone']) {
-                    if (t_subattr_name in gem_tax['llrs_lone'][t_sub_first_name]) {
-                        gem$(llrs_duct_ddown[direct]).val(t_subattr_name);
-                        llrs_duct_selec[direct]();
-                        continue;
-                    }
+                if (t_subattr_name in gem_tax['llrs_lone']) {
+                    gem$(llrs_clv_ddown[direct]).val(t_subattr_name);
+                    llrs_clv_selec[direct]();
+                    continue;
                 }
-                if (t_sub_first_name in gem_tax['llrs_loneone']) {
-                    if (t_subattr_name in gem_tax['llrs_loneone'][t_sub_first_name]) {
-                        gem$(llrs_clv_ddown[direct]).val(t_subattr_name);
-                        llrs_clv_selec[direct]();
-                        continue;
-                    }
+                if (t_subattr_name in gem_tax['llrs_loneone']) {
+                    gem$(llrs_coe_ddown[direct]).val(taxonomy_attrparms(t_subattr)[0]);
+                    llrs_coe_selec[direct]();
+                    continue;
                 }
-                if (t_sub_first_name in gem_tax['llrs_ltwo']) {
-                    if (t_subattr_name in gem_tax['llrs_ltwo'][t_sub_first_name]) {
-                        gem$(llrs_cwd_ddown[direct]).val(t_subattr_name);
+                if (t_subattr_name in gem_tax['llrs_ltwo']) {
+                    gem$(llrs_duct_ddown[direct]).val(t_subattr_name);
+                    llrs_duct_selec[direct]();
+                    continue;
+                }
+                if (t_sub_first_name in gem_tax['llrs_lthree_grps']) {
+                    if (t_subattr_name in gem_tax['llrs_lthree']) {
+                        gem$(llrs_cwd_ddown[direct]).val(taxonomy_attrparms(t_subattr)[0]);
                         llrs_cwd_selec[direct]();
                         continue;
                     }
