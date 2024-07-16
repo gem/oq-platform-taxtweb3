@@ -3143,11 +3143,40 @@ function taxt_BuildTaxonomy()
             }
         }
 
-        var llrs_coef, llrs_wden;
+        var llrs, llrs_coef, llrs_wden;
 
+        llrs = gem$('#SystemCB1' + i).val();
         llrs_coef = gem$('#SystemE4' + i).val();
         llrs_wden = gem$('#SystemE5' + i).val();
 
+        if (mat == 'HYB') {
+            var hyb_mat_a = gem$('#MaterialCB1A' + i).val();
+            var hyb_mat_b = gem$('#MaterialCB1B' + i).val();
+
+            if (hyb_mat_a == hyb_mat_b) {
+                gem$('#MaterialCB1A' + i).addClass('gem_field_alert');
+                gem$('#MaterialCB1B' + i).addClass('gem_field_alert');
+            }
+            else {
+                gem$('#MaterialCB1A' + i).removeClass('gem_field_alert');
+                gem$('#MaterialCB1B' + i).removeClass('gem_field_alert');
+            }
+        }
+
+        if (llrs == 'LHV' || llrs == 'LHP') {
+            var hyb_llrs_a = gem$('#SystemCB1A' + i).val();
+            var hyb_llrs_b = gem$('#SystemCB1B' + i).val();
+
+            if (hyb_llrs_a == hyb_llrs_b) {
+                gem$('#SystemCB1A' + i).addClass('gem_field_alert');
+                gem$('#SystemCB1B' + i).addClass('gem_field_alert');
+            }
+            else {
+                gem$('#SystemCB1A' + i).removeClass('gem_field_alert');
+                gem$('#SystemCB1B' + i).removeClass('gem_field_alert');
+            }
+
+        }
         if (llrs_coef != '') {
             if (parseFloat(llrs_coef) >= 0.0 && parseFloat(llrs_coef) <= 100.0) {
                 gem$('#SystemE4' + i).removeClass('gem_field_alert');
