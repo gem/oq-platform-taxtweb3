@@ -1451,8 +1451,8 @@ function taxt_MaterialCB42Select(obj) // Ok
 
 function taxt_SystemCB11Select(obj) // Ok
 {
-    taxt_SetDirection2();
     taxt_ValidateSystem1();
+    taxt_SetDirection2();
     if (gem$('#DirectionCB').prop('checked')) {
         taxt_ValidateSystem2();
     }
