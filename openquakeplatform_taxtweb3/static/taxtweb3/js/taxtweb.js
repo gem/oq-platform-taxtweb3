@@ -475,7 +475,7 @@ function taxt_ValidateMaterial(tab_id) // Ok
         gem$('#' + mat_cb4).prop("disabled", true);
     }
 
-    taxt_ValidateSystem(tab_id);
+    // taxt_ValidateSystem(tab_id);
 
     return;
 
@@ -1377,7 +1377,7 @@ function taxt_MaterialCB12Select(obj) // Ok
 {
     taxt_ValidateMaterial2();
     taxt_BreakDirection2(obj);
-    taxt_ValidateSystem2();
+    // taxt_ValidateSystem2();
     taxt_BuildTaxonomy();
 }
 
