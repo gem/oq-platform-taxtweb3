@@ -307,6 +307,10 @@ function taxt_ValidateSystem(tab_id) // Ok
             gem$('#' + llrs_cb3).prop("disabled", true);
             gem$('#' + llrs_e4).prop("disabled", true);
             gem$('#' + llrs_e5).prop("disabled", true);
+            gem$('#' + llrs_cb2).empty();
+            gem$('#' + llrs_cb3).empty();
+            gem$('#' + llrs_e4).val('');
+            gem$('#' + llrs_e5).val('');
         }
         else {
             if (gem$('#' + llrs_cb2).prop("disabled")) {
