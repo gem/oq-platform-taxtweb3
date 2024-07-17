@@ -1862,13 +1862,13 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_coe =  gem$('#SystemE41').val();
     if (t_llrs_coe != null && t_llrs_coe != '')
-        Taxonomy[37] = '-LFC:' + parseFloat(t_llrs_coe);
+        Taxonomy[37] = gem_tax_subsep + 'LFC:' + parseFloat(t_llrs_coe);
     else
         Taxonomy[37] = '';
 
     t_llrs_cwd = gem$('#SystemE51').val();
     if (t_llrs_cwd != null && t_llrs_cwd != '')
-        Taxonomy[38] = '-DCW:' + t_llrs_cwd;
+        Taxonomy[38] = gem_tax_subsep + 'DCW:' + t_llrs_cwd;
     else
         Taxonomy[38] = '';
 
@@ -1958,13 +1958,13 @@ function BuildTaxonomyString(out_type)
 
     t_llrs_coe =  gem$('#SystemE42').val();
     if (t_llrs_coe != null && t_llrs_coe != '')
-        Taxonomy[41] = '-LFC:' + parseFloat(t_llrs_coe);
+        Taxonomy[41] = gem_tax_subsep + 'LFC:' + parseFloat(t_llrs_coe);
     else
         Taxonomy[41] = '';
 
     t_llrs_cwd = gem$('#SystemE52').val();
     if (t_llrs_cwd != null && t_llrs_cwd != '')
-        Taxonomy[42] = '-DCW:' + t_llrs_cwd;
+        Taxonomy[42] = gem_tax_subsep + 'DCW:' + t_llrs_cwd;
     else
         Taxonomy[42] = '';
 
@@ -4452,9 +4452,9 @@ function taxt_Initiate(full) {
     } // FIXME to be removed later
     // TAIL
     taxt_ValidateMaterial1();
-    // taxt_ValidateSystem1(); // disabled because already called at the end of taxt_ValidateMaterial1();
+    taxt_ValidateSystem1(); // disabled because already called at the end of taxt_ValidateMaterial1();
     taxt_ValidateMaterial2();
-    // taxt_ValidateSystem2(); // disabled because already called at the end of taxt_ValidateMaterial2();
+    taxt_ValidateSystem2(); // disabled because already called at the end of taxt_ValidateMaterial2();
     taxt_ValidateRoof();
     taxt_ValidateFloor();
     taxt_ValidateHeight();
@@ -4562,7 +4562,7 @@ function populate(s, ret_s) {
     //
     dirx = sar[0];
     diry = sar[3];
-    if ((dirx == "" || dirx == "--") && (diry == "" || diry == "--")) {
+    if ((dirx == '' || dirx == '--') && (diry == '' || diry == '--')) {
         gem$("#Direction1RB1").prop("checked", true);
         taxt_Direction1RB1Click(null);
     }

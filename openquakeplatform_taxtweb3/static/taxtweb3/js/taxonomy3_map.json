@@ -36,7 +36,7 @@
                 "MUR": "Masonry, unreinforced",
                 "MCF": "Masonry, confined",
                 "MR": "Masonry, reinforced",
-                "MUR-ST": "Stone masonry, unreinforced",
+                "MUR+ST": "Stone masonry, unreinforced",
                 "ER": "Earth, reinforced",
                 "EU": "Earth, unreinforced (or mud)",
                 "W": "Wood"
@@ -199,16 +199,16 @@
             "val": {
                 "--": "Infill material unknown",
                 "MUR": "Unreinforced masonry",
-                "MUR-CL": "Unreinforced masonry, fired clay bricks",
-                "MUR-CLB": "Unreinforced masonry, fired clay hollow blocks or tiles",
-                "MUR-AAC": "Unreinforced masonry, AAC blocks (aerated autoclaved blocks)",
-                "MUR-FAB": "Unreinforced masonry, flyash bricks",
-                "MUR-CBH": "Unreinforced masonry, hollow concrete blocks",
-                "MUR-CBS": "Unreinforced masonry, solid concrete blocks",
+                "MUR+CL": "Unreinforced masonry, fired clay bricks",
+                "MUR+CLB": "Unreinforced masonry, fired clay hollow blocks or tiles",
+                "MUR+AAC": "Unreinforced masonry, AAC blocks (aerated autoclaved blocks)",
+                "MUR+FAB": "Unreinforced masonry, flyash bricks",
+                "MUR+CBH": "Unreinforced masonry, hollow concrete blocks",
+                "MUR+CBS": "Unreinforced masonry, solid concrete blocks",
                 "MR": "Reinforced masonry",
-                "MR-CL": "Reinforced masonry, clay brick",
-                "MR-CB": "Reinforced masonry, concrete block",
-                "MUR-ST": "Unreinforced stone masonry"
+                "MR+CL": "Reinforced masonry, clay brick",
+                "MR+CB": "Reinforced masonry, concrete block",
+                "MUR+ST": "Unreinforced stone masonry"
             }
         }
     },
